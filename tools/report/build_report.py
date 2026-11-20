@@ -25,6 +25,7 @@ ap = argparse.ArgumentParser()
 ap.add_argument("root"); ap.add_argument("part1"); ap.add_argument("template"); ap.add_argument("out")
 ap.add_argument("--figma", default="[Figma link – added after publishing, see readme.txt]")
 ap.add_argument("--github", default="https://github.com/bminhnemhoi/saigonbite-g7")
+ap.add_argument("--part1-only", action="store_true", help="Part 1 resubmission: Tier 4 updates without the Part 2 chapter")
 a = ap.parse_args()
 ROOT = pathlib.Path(a.root)
 UML, ARCH, UI = ROOT / "design/uml/out", ROOT / "design/architecture", ROOT / "design/ui/out"
@@ -179,7 +180,8 @@ def land_figure(path, caption):
 
 
 # ------------------------------------------------------------------ 1. cover, abstract, feedback log
-set_para_text(find_para("Part 1: Project Proposal & Requirements Engineering"), C.COVER_PART)
+if not a.part1_only:
+    set_para_text(find_para("Part 1: Project Proposal & Requirements Engineering"), C.COVER_PART)
 # brand on the cover: mark above the title, night-city band below it
 title_p = doc.paragraphs[0]
 for p in doc.paragraphs:
@@ -204,12 +206,12 @@ while prev is not None and prev.tag == qn("w:p") and not "".join(prev.itertext()
     nxt = prev.getprevious(); prev.getparent().remove(prev); prev = nxt
 cov = doc.tables[0]
 write_cell(cov.rows[1].cells[1], "Tier 4", bold=True)
-write_cell(cov.rows[1].cells[2], "v2.0 (Part 2)")
+write_cell(cov.rows[1].cells[2], "v1.1 (Tier 4 revision)" if a.part1_only else "v2.0 (Part 2)")
 write_cell(cov.rows[1].cells[3], datetime.date(2026, 11, 20).strftime("%d %B %Y"))
-write_cell(doc.tables[1].rows[1].cells[0], C.ABSTRACT)
+write_cell(doc.tables[1].rows[1].cells[0], C.ABSTRACT_P1 if a.part1_only else C.ABSTRACT)
 set_para_text(find_para("No feedback has been received"), C.FEEDBACK_INTRO)
 fb = doc.tables[2]
-for i, row in enumerate(C.FEEDBACK_ROWS):
+for i, row in enumerate(C.FEEDBACK_ROWS_P1 if a.part1_only else C.FEEDBACK_ROWS):
     if i + 1 >= len(fb.rows):
         fb._tbl.append(copy.deepcopy(fb.rows[-1]._tr))
     for j, val in enumerate(row):
@@ -257,165 +259,166 @@ set_para_text(amb_p, "The specification deliberately leaves some decisions open.
                      "designs and tests against, and the requirements that depend on it. The assumptions were presented at Presentation 1; "
                      "A-01, A-02 and A-06 were raised explicitly for confirmation. Written answers will be recorded here and in the Team Workbook.")
 
-# ------------------------------------------------------------------ 3. detach References + Appendix, then append Part 2
-ref_h = find_para("References")
-tail, el = [], ref_h._p
-while el is not None and el.tag != qn("w:sectPr"):
-    nxt = el.getnext()
-    tail.append(el)
-    el.getparent().remove(el)
-    el = nxt
+if not a.part1_only:
+    # ------------------------------------------------------------------ 3. detach References + Appendix, then append Part 2
+    ref_h = find_para("References")
+    tail, el = [], ref_h._p
+    while el is not None and el.tag != qn("w:sectPr"):
+        nxt = el.getnext()
+        tail.append(el)
+        el.getparent().remove(el)
+        el = nxt
 
-h = heading("Part 2: Software Design, Architecture & UI/UX (20 marks)", 1)
-h.paragraph_format.page_break_before = True
-para(C.P2_INTRO)
+    h = heading("Part 2: Software Design, Architecture & UI/UX (20 marks)", 1)
+    h.paragraph_format.page_break_before = True
+    para(C.P2_INTRO)
 
-# 2.1
-heading("2.1 Overall Use Case Diagram", 2)
-para(C.UC_OVERVIEW)
-para("Links: GitHub repository ", bold_lead=None).add_run(a.github)
-land_figure(UML / "usecase_overview.png", "Overall use case diagram – system boundary, actor generalisation Customer → Local Customer / Foreign Tourist, UC1 and UC2 owners and the Tier 4 extension.")
+    # 2.1
+    heading("2.1 Overall Use Case Diagram", 2)
+    para(C.UC_OVERVIEW)
+    para("Links: GitHub repository ", bold_lead=None).add_run(a.github)
+    land_figure(UML / "usecase_overview.png", "Overall use case diagram – system boundary, actor generalisation Customer → Local Customer / Foreign Tourist, UC1 and UC2 owners and the Tier 4 extension.")
 
-# 2.2
-section(False)
-heading("2.2 Use Case Specifications", 2)
-para("Each specification cites the FR and BR IDs of Part 1. The post-conditions are written so that they can be checked directly by the Part 3 test cases.")
+    # 2.2
+    section(False)
+    heading("2.2 Use Case Specifications", 2)
+    para("Each specification cites the FR and BR IDs of Part 1. The post-conditions are written so that they can be checked directly by the Part 3 test cases.")
 
 
-def spec(title, s):
-    heading(title, 3)
-    t = tpl_table(9)
-    vals = [s["name"], s["actors"], s["ids"], s["pre"], s["main"], s["alt"], s["exc"], s["post"]]
-    for i, v in enumerate(vals):
+    def spec(title, s):
+        heading(title, 3)
+        t = tpl_table(9)
+        vals = [s["name"], s["actors"], s["ids"], s["pre"], s["main"], s["alt"], s["exc"], s["post"]]
+        for i, v in enumerate(vals):
+            write_cell(t.rows[i + 1].cells[1], v)
+
+
+    spec("2.2.1 Use Case 1: Place and Manage Orders (author: 524H0055 – Lê Xuân Khánh)", C.UC1_SPEC)
+    doc.add_paragraph()
+    spec("2.2.2 Use Case 2: Manage Hubs & Capacity (author: 524H0169 – Ngô Bình Minh)", C.UC2_SPEC)
+
+    # 2.3
+    section(False)
+    heading("2.3 Behavioral Diagrams", 2)
+    heading("2.3.1 Sequence Diagrams for Use Case 1 (author: 524H0055)", 3)
+    para(C.SEQ_TEXT_UC1)
+    land_figure(UML / "seq_uc1_place_order_1.png", "UC1 sequence diagram, part 1 – check the hub load and quote the price (BR1–BR12, BR8).")
+    land_figure(UML / "seq_uc1_place_order_2.png", "UC1 sequence diagram, part 2 – choose the payment strategy and save the order in one transaction (BR13, BR14, NFR5, NFR6).")
+    land_figure(UML / "seq_tier4_paypal_sandbox.png", "Tier 4 – PayPal Developer sandbox flow: create order, buyer approval, capture or cancel (FR36).")
+    section(False)
+    heading("2.3.2 Sequence Diagrams for Use Case 2 (author: 524H0169)", 3)
+    para(C.SEQ_TEXT_UC2)
+    land_figure(UML / "seq_uc2_manage_hubs_1.png", "UC2 sequence diagram, part 1 – create a hub and list hubs with their current load (FR5, FR6, BR7, BR8).")
+    land_figure(UML / "seq_uc2_manage_hubs_2.png", "UC2 sequence diagram, part 2 – edit a hub and deactivate it as a soft-delete (FR24, A-07).")
+    section(False)
+    heading("2.3.3 Order State Diagram (team)", 3)
+    para(C.STATE_TEXT)
+    figure(UML / "state_order.png", "Order lifecycle state diagram – 8 states, triggering actors, guards and entry actions (BR14–BR16, A-01, A-02).", 6.3, 7.0)
+
+    # 2.4
+    section(False)
+    heading("2.4 Structural & CRC Design", 2)
+    heading("2.4.1 CRC Cards", 3)
+    para(C.CRC_INTRO)
+    t = tpl_table(10, len(C.CRC))
+    for i, row in enumerate(C.CRC):
+        for j, v in enumerate(row):
+            write_cell(t.rows[i + 1].cells[j], v, bold=(j == 0))
+    heading("2.4.2 UML Class Diagrams", 3)
+    para(C.CLASS_TEXT)
+    land_figure(UML / "class_users.png", "Class diagram – User generalisation: Local Customers and Foreign Tourists share one schema (BR18, FR1).")
+    land_figure(UML / "class_orders.png", "Class diagram – ordering model with the price snapshot and price breakdown value objects (BR10, BR17).")
+    land_figure(UML / "class_services.png", "Class diagram – business-layer services behind interfaces; pricing rules only in PricingService (NFR2).")
+    land_figure(UML / "class_strategy.png", "Class diagram – payment Strategy pattern: one interface, one class per method, selection by customer type (BR13).")
+    section(False)
+    heading("2.4.3 Database Design Notes", 3)
+    para("The physical model below is generated by EF Core Code First migrations. Figures 2.12 and 2.13 split the ERD into accounts and catalogue, and orders and payments; key columns only.")
+    t = tpl_table(11, len(C.DB_NOTES))
+    write_header(t.rows[0].cells[0], "Design decision")
+    write_header(t.rows[0].cells[1], "How and why")
+    for i, (k, v) in enumerate(C.DB_NOTES):
+        write_cell(t.rows[i + 1].cells[0], k, bold=True)
         write_cell(t.rows[i + 1].cells[1], v)
+    section(False)
+    figure(UML / "erd_accounts_catalogue.png", "ERD (crow’s foot) – accounts, staff, hubs and catalogue. Customer generalisation as table-per-type.", 6.5, 8.0)
+    land_figure(UML / "erd_orders_payments.png", "ERD (crow’s foot) – orders, lines, status history and payments with the BR17 snapshot columns.")
 
+    # 2.5
+    section(False)
+    heading("2.5 Architecture & Quality Design", 2)
+    para(C.ARCH_TEXT)
+    t = tpl_table(11)
+    for i, (k, v) in enumerate(C.PRINCIPLES):
+        write_cell(t.rows[i + 1].cells[1], v)
+    para()
+    para("Design of the three Tier 4 parts", bold_lead=None).runs[0].bold = True
+    for lead_txt, txt in C.TIER4_TEXT:
+        para(txt, bold_lead=lead_txt)
+    land_figure(ARCH / "architecture_layers.png", "Architecture – ASP.NET Core MVC in three layers with NFR tags, cross-cutting concerns and quality gates.")
+    section(True)
+    figure(ARCH / "request_pipeline.png", "Request pipeline – one “place order” request through the layers in one transaction.", *LAND_HALF)
+    figure(ARCH / "pricing_pipeline.png", "Pricing pipeline inside PricingService – the BR10 order with both worked examples.", *LAND_HALF)
 
-spec("2.2.1 Use Case 1: Place and Manage Orders (author: 524H0055 – Lê Xuân Khánh)", C.UC1_SPEC)
-doc.add_paragraph()
-spec("2.2.2 Use Case 2: Manage Hubs & Capacity (author: 524H0169 – Ngô Bình Minh)", C.UC2_SPEC)
+    # 2.6
+    section(False)
+    heading("2.6 UI/UX Design", 2)
+    para(C.UI_TEXT)
+    p = para("Figma prototype (public, view only): ", bold_lead=None)
+    p.runs[0].bold = True
+    p.add_run(a.figma)
+    para("The Figma file has the pages 01 Sketch, 02 Wireframe, 03 Mock-up desktop, 04 Mock-up mobile, 05 Prototype (three flows: Local customer with cash, Foreign tourist with the PayPal sandbox, Admin with hubs and reports) and 06 Design system.")
+    t = tpl_table(10, len(C.UI_MAP))
+    for j, hdr in enumerate(["Screen", "Requirements shown", "Figure"]):
+        write_header(t.rows[0].cells[j], hdr)
+    for i, row in enumerate(C.UI_MAP):
+        for j, v in enumerate(row):
+            write_cell(t.rows[i + 1].cells[j], v)
+    land_figure(UI / "ui_stages.png", "The four UI/UX stages for the Local checkout screen: sketch, wireframe, mock-up and prototype click areas.")
+    screens = [
+        ("01-home", "Customer home – hubs near the address with load bands: Quiet −10%, Normal, Full (≥ 90%) and out of the 8 km coverage."),
+        ("02-menu", "Hub TD menu and brand browsing with real dishes; unavailable item disabled (BR12); cart with S = 200,000 ₫."),
+        ("03-checkout-local", "Local Customer checkout – BR10 price breakdown of the specification example (205,000 ₫) and MoMo, VNPay, COD enabled."),
+        ("04-checkout-tourist", "Foreign Tourist checkout – voucher, free delivery, rain surcharge, rounding (269,000 ₫); Apple Pay, PayPal and COD enabled."),
+        ("05-paypal-success", "Tier 4 – payment captured by the PayPal Developer sandbox, capture ID stored on the order."),
+        ("06-tracking", "Order tracking – status history, price snapshot and the cancel rule (BR16, BR17)."),
+        ("07-register", "Registration – Local Customer by phone and OTP, Foreign Tourist by passport and email (BR18)."),
+        ("08-kitchen", "Kitchen board – confirm, reject with a reason, start cooking, mark ready; live hub load."),
+        ("10-admin-dashboard", "Tier 4 – interactive Admin dashboard: KPIs, revenue trend, live hub load, orders by state, payment mix, heavy-rain switch."),
+        ("11-admin-hubs", "UC2 – hubs with capacity, active orders and load bands; inactive hub kept for history."),
+        ("12-admin-hub-edit", "UC2 – edit hub with capacity validation and deactivation blocked by active orders (A-07)."),
+    ]
+    for name, cap in screens:
+        land_figure(UI / f"{name}.png", cap)
+    land_figure(UI / "ui_phones.png", "Responsive layout at 390 px on a phone: menu with cart, checkout with the BR10 breakdown, tracking and the shipper screen (COD confirmation, failed delivery).")
+    land_figure(UI / "13-report-r1.png", "Revenue report R1 – by brand category and payment method, Cancelled and Failed orders excluded (FR25).")
+    land_figure(UI / "14-report-r2.png", "Hub utilization report R2 – orders handled, average preparation time, current load and Quiet Kitchen discounts (FR26).")
+    land_figure(UI / "landing_overview.png", "Landing page – real night photographs of Ho Chi Minh City, Quiet Kitchen pricing, transparent price example and both payment groups; motion in landing_motion.mp4.")
+    land_figure(UI / "00-sign-in.png", "Sign in – Bến Thành Market at night, phone or passport / email login, EN/VI toggle (FR2–FR4, NFR3).")
 
-# 2.3
-section(False)
-heading("2.3 Behavioral Diagrams", 2)
-heading("2.3.1 Sequence Diagrams for Use Case 1 (author: 524H0055)", 3)
-para(C.SEQ_TEXT_UC1)
-land_figure(UML / "seq_uc1_place_order_1.png", "UC1 sequence diagram, part 1 – check the hub load and quote the price (BR1–BR12, BR8).")
-land_figure(UML / "seq_uc1_place_order_2.png", "UC1 sequence diagram, part 2 – choose the payment strategy and save the order in one transaction (BR13, BR14, NFR5, NFR6).")
-land_figure(UML / "seq_tier4_paypal_sandbox.png", "Tier 4 – PayPal Developer sandbox flow: create order, buyer approval, capture or cancel (FR36).")
-section(False)
-heading("2.3.2 Sequence Diagrams for Use Case 2 (author: 524H0169)", 3)
-para(C.SEQ_TEXT_UC2)
-land_figure(UML / "seq_uc2_manage_hubs_1.png", "UC2 sequence diagram, part 1 – create a hub and list hubs with their current load (FR5, FR6, BR7, BR8).")
-land_figure(UML / "seq_uc2_manage_hubs_2.png", "UC2 sequence diagram, part 2 – edit a hub and deactivate it as a soft-delete (FR24, A-07).")
-section(False)
-heading("2.3.3 Order State Diagram (team)", 3)
-para(C.STATE_TEXT)
-figure(UML / "state_order.png", "Order lifecycle state diagram – 8 states, triggering actors, guards and entry actions (BR14–BR16, A-01, A-02).", 6.3, 7.0)
-
-# 2.4
-section(False)
-heading("2.4 Structural & CRC Design", 2)
-heading("2.4.1 CRC Cards", 3)
-para(C.CRC_INTRO)
-t = tpl_table(10, len(C.CRC))
-for i, row in enumerate(C.CRC):
-    for j, v in enumerate(row):
-        write_cell(t.rows[i + 1].cells[j], v, bold=(j == 0))
-heading("2.4.2 UML Class Diagrams", 3)
-para(C.CLASS_TEXT)
-land_figure(UML / "class_users.png", "Class diagram – User generalisation: Local Customers and Foreign Tourists share one schema (BR18, FR1).")
-land_figure(UML / "class_orders.png", "Class diagram – ordering model with the price snapshot and price breakdown value objects (BR10, BR17).")
-land_figure(UML / "class_services.png", "Class diagram – business-layer services behind interfaces; pricing rules only in PricingService (NFR2).")
-land_figure(UML / "class_strategy.png", "Class diagram – payment Strategy pattern: one interface, one class per method, selection by customer type (BR13).")
-section(False)
-heading("2.4.3 Database Design Notes", 3)
-para("The physical model below is generated by EF Core Code First migrations. Figures 2.12 and 2.13 split the ERD into accounts and catalogue, and orders and payments; key columns only.")
-t = tpl_table(11, len(C.DB_NOTES))
-write_header(t.rows[0].cells[0], "Design decision")
-write_header(t.rows[0].cells[1], "How and why")
-for i, (k, v) in enumerate(C.DB_NOTES):
-    write_cell(t.rows[i + 1].cells[0], k, bold=True)
-    write_cell(t.rows[i + 1].cells[1], v)
-section(False)
-figure(UML / "erd_accounts_catalogue.png", "ERD (crow’s foot) – accounts, staff, hubs and catalogue. Customer generalisation as table-per-type.", 6.5, 8.0)
-land_figure(UML / "erd_orders_payments.png", "ERD (crow’s foot) – orders, lines, status history and payments with the BR17 snapshot columns.")
-
-# 2.5
-section(False)
-heading("2.5 Architecture & Quality Design", 2)
-para(C.ARCH_TEXT)
-t = tpl_table(11)
-for i, (k, v) in enumerate(C.PRINCIPLES):
-    write_cell(t.rows[i + 1].cells[1], v)
-para()
-para("Design of the three Tier 4 parts", bold_lead=None).runs[0].bold = True
-for lead_txt, txt in C.TIER4_TEXT:
-    para(txt, bold_lead=lead_txt)
-land_figure(ARCH / "architecture_layers.png", "Architecture – ASP.NET Core MVC in three layers with NFR tags, cross-cutting concerns and quality gates.")
-section(True)
-figure(ARCH / "request_pipeline.png", "Request pipeline – one “place order” request through the layers in one transaction.", *LAND_HALF)
-figure(ARCH / "pricing_pipeline.png", "Pricing pipeline inside PricingService – the BR10 order with both worked examples.", *LAND_HALF)
-
-# 2.6
-section(False)
-heading("2.6 UI/UX Design", 2)
-para(C.UI_TEXT)
-p = para("Figma prototype (public, view only): ", bold_lead=None)
-p.runs[0].bold = True
-p.add_run(a.figma)
-para("The Figma file has the pages 01 Sketch, 02 Wireframe, 03 Mock-up desktop, 04 Mock-up mobile, 05 Prototype (three flows: Local customer with cash, Foreign tourist with the PayPal sandbox, Admin with hubs and reports) and 06 Design system.")
-t = tpl_table(10, len(C.UI_MAP))
-for j, hdr in enumerate(["Screen", "Requirements shown", "Figure"]):
-    write_header(t.rows[0].cells[j], hdr)
-for i, row in enumerate(C.UI_MAP):
-    for j, v in enumerate(row):
-        write_cell(t.rows[i + 1].cells[j], v)
-land_figure(UI / "ui_stages.png", "The four UI/UX stages for the Local checkout screen: sketch, wireframe, mock-up and prototype click areas.")
-screens = [
-    ("01-home", "Customer home – hubs near the address with load bands: Quiet −10%, Normal, Full (≥ 90%) and out of the 8 km coverage."),
-    ("02-menu", "Hub TD menu and brand browsing with real dishes; unavailable item disabled (BR12); cart with S = 200,000 ₫."),
-    ("03-checkout-local", "Local Customer checkout – BR10 price breakdown of the specification example (205,000 ₫) and MoMo, VNPay, COD enabled."),
-    ("04-checkout-tourist", "Foreign Tourist checkout – voucher, free delivery, rain surcharge, rounding (269,000 ₫); Apple Pay, PayPal and COD enabled."),
-    ("05-paypal-success", "Tier 4 – payment captured by the PayPal Developer sandbox, capture ID stored on the order."),
-    ("06-tracking", "Order tracking – status history, price snapshot and the cancel rule (BR16, BR17)."),
-    ("07-register", "Registration – Local Customer by phone and OTP, Foreign Tourist by passport and email (BR18)."),
-    ("08-kitchen", "Kitchen board – confirm, reject with a reason, start cooking, mark ready; live hub load."),
-    ("10-admin-dashboard", "Tier 4 – interactive Admin dashboard: KPIs, revenue trend, live hub load, orders by state, payment mix, heavy-rain switch."),
-    ("11-admin-hubs", "UC2 – hubs with capacity, active orders and load bands; inactive hub kept for history."),
-    ("12-admin-hub-edit", "UC2 – edit hub with capacity validation and deactivation blocked by active orders (A-07)."),
-]
-for name, cap in screens:
-    land_figure(UI / f"{name}.png", cap)
-land_figure(UI / "ui_phones.png", "Responsive layout at 390 px on a phone: menu with cart, checkout with the BR10 breakdown, tracking and the shipper screen (COD confirmation, failed delivery).")
-land_figure(UI / "13-report-r1.png", "Revenue report R1 – by brand category and payment method, Cancelled and Failed orders excluded (FR25).")
-land_figure(UI / "14-report-r2.png", "Hub utilization report R2 – orders handled, average preparation time, current load and Quiet Kitchen discounts (FR26).")
-land_figure(UI / "landing_overview.png", "Landing page – real night photographs of Ho Chi Minh City, Quiet Kitchen pricing, transparent price example and both payment groups; motion in landing_motion.mp4.")
-land_figure(UI / "00-sign-in.png", "Sign in – Bến Thành Market at night, phone or passport / email login, EN/VI toggle (FR2–FR4, NFR3).")
-
-# ------------------------------------------------------------------ 4. re-attach References and Appendix in portrait
-section(False)
-for el in tail:
-    end_insert(el)
-ref_last = None
-for p in doc.paragraphs:
-    if p.text.strip().startswith("7. K. Schwaber"):
-        ref_last = p
-anchor = ref_last._p
-for txt in C.EXTRA_REFS:
-    new_p = copy.deepcopy(ref_last._p)
-    anchor.addnext(new_p)
-    anchor = new_p
-    from docx.text.paragraph import Paragraph
-    np_ = Paragraph(new_p, ref_last._parent)
-    set_para_text(np_, txt)
+    # ------------------------------------------------------------------ 4. re-attach References and Appendix in portrait
+    section(False)
+    for el in tail:
+        end_insert(el)
+    ref_last = None
+    for p in doc.paragraphs:
+        if p.text.strip().startswith("7. K. Schwaber"):
+            ref_last = p
+    anchor = ref_last._p
+    for txt in C.EXTRA_REFS:
+        new_p = copy.deepcopy(ref_last._p)
+        anchor.addnext(new_p)
+        anchor = new_p
+        from docx.text.paragraph import Paragraph
+        np_ = Paragraph(new_p, ref_last._parent)
+        set_para_text(np_, txt)
 
 ai = doc.tables[-1]
-for row in C.AI_ROWS:
+for row in (C.AI_ROWS_P1 if a.part1_only else C.AI_ROWS):
     ai._tbl.append(copy.deepcopy(ai.rows[-1]._tr))
     for j, v in enumerate(row):
         write_cell(ai.rows[-1].cells[j], v)
 
-doc.core_properties.title = "SaigonBite – Team G7 – Part 1 and Part 2 report (v2.0)"
+doc.core_properties.title = ("SaigonBite – Team G7 – Part 1 report (v1.1, Tier 4)" if a.part1_only else "SaigonBite – Team G7 – Part 1 and Part 2 report (v2.0)")
 doc.core_properties.author = "Team G7 (524H0055, 524H0169)"
 doc.save(a.out)
 print("saved", a.out, "figures:", FIG["n"])

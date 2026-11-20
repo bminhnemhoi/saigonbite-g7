@@ -3,7 +3,7 @@
 COVER_PART = "Part 1 & Part 2: Requirements Engineering · Software Design, Architecture & UI/UX"
 
 ABSTRACT = ("SaigonBite is a delivery-only cloud-kitchen network in Ho Chi Minh City. This report, version 2.0, combines the Part 1 "
-            "requirements baseline (35 functional requirements, 7 measurable quality attributes and 8 documented assumptions) with "
+            "requirements baseline (37 functional requirements, 7 measurable quality attributes and 8 documented assumptions) with "
             "the Part 2 design: an overall use case diagram with actor generalisation, formal specifications and sequence diagrams for "
             "UC1 Place and Manage Orders and UC2 Manage Hubs & Capacity, the team state diagram of the 8-state order lifecycle, CRC cards, "
             "class diagrams with the payment Strategy pattern, the database design, a three-layer ASP.NET Core MVC architecture linked to "
@@ -237,4 +237,29 @@ AI_ROWS = [
      "Draft Part 2 text, use case specifications, CRC cards, database notes and the Presentation 2 slides",
      "Draft used as the starting point; wording and decisions reviewed by both members",
      "Read against the Part 2 checklist and rubric; IDs cross-checked with the Team Workbook"],
+]
+
+# ----------------------------------------------------------------------------------------------- Part 1 resubmission (v1.1)
+ABSTRACT_P1 = ("SaigonBite is a delivery-only cloud-kitchen network in Ho Chi Minh City. This Part 1 report, version 1.1, turns business "
+               "rules BR1–BR18 into a traceable requirements baseline: 37 functional requirements with IDs mapped to the two owned use "
+               "cases (UC1 Place and Manage Orders, UC2 Manage Hubs & Capacity), the supporting functions and the two reports, 7 "
+               "measurable quality attributes and 8 documented assumptions. Version 1.1 applies the instructor’s approval at "
+               "Presentation 1: the team now targets Tier 4 – a live PayPal Developer sandbox (FR36), an interactive Admin dashboard "
+               "(FR37) and Playwright end-to-end tests (NFR7) – on ASP.NET Core MVC, Entity Framework Core, SQL Server and Bootstrap.")
+
+FEEDBACK_ROWS_P1 = [
+    ["Presentation 1", "The instructor approved the team’s request to move from Tier 3 to Tier 4 (live sandbox payment, interactive Admin dashboard, automated end-to-end tests).",
+     "Cover table and Abstract set to Tier 4; Section 1.1 technology tier rewritten; FR22 updated; FR36, FR37 (1.3) and NFR7 (1.4) added; Team Workbook (Team & Tier, Requirements, RTM, Tier Checklist, Feedback Log) and Marking Sheet updated.", "Yes"],
+    ["Presentation 1", "Assumptions A-01 (shipper assignment), A-02 (money after a Failed delivery) and A-06 (load rounding) were raised for confirmation.",
+     "Assumptions kept as written; the written answer will be recorded in 1.5 and in the Team Workbook.", "Open"],
+    ["Part 1 marking", "Not yet received.", "–", "–"],
+    ["Presentation 2", "Not yet held.", "–", "–"],
+    ["Part 2 marking", "Not yet received.", "–", "–"],
+]
+
+AI_ROWS_P1 = [
+    ["Claude (Anthropic), 20 Nov 2026", "Tier 4 revision of the Part 1 documents",
+     "Update cover, Section 1.1, FR22, FR36, FR37, NFR7, the Feedback Log and the Team Workbook after the Tier 4 approval",
+     "Kept all existing IDs and wording; only tier-related text and the three new requirements were added",
+     "Cross-checked the new IDs between the report, the Team Workbook and the Marking Sheet"],
 ]
