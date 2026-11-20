@@ -35,9 +35,15 @@ async function labelFor(page, frame, caption) {
   return t;
 }
 
-async function grid(page, list, cols, gapX, gapY, startY, startX) {
-  const x0 = startX || 0;
-  let x = x0, y = startY || 0, col = 0, rowH = 0; const made = {};
+async function grid(page, list, cols, gapX, gapY, startY, startX, leadId) {
+  let x0 = startX || 0; const made = {};
+  const lead = leadId && list.find(s => s.id === leadId);
+  if (lead) {               // a tall screen (the landing page) gets its own column on the left
+    const f = imageFrame(page, lead, x0, (startY || 0) + 60);
+    await labelFor(page, f, lead.title); made[lead.id] = f;
+    x0 += lead.w + gapX * 2; list = list.filter(s => s !== lead);
+  }
+  let x = x0, y = startY || 0, col = 0, rowH = 0;
   for (const s of list) {
     const f = imageFrame(page, s, x, y + 60);
     await labelFor(page, f, s.title);
@@ -58,10 +64,10 @@ async function usePage(index, name) {
   p.name = name; return p;
 }
 
-async function stageSection(page, name, y, list, cols, gapX, gapY) {
+async function stageSection(page, name, y, list, cols, gapX, gapY, leadId) {
   const sec = figma.createSection ? figma.createSection() : figma.createFrame();
   sec.name = name; page.appendChild(sec); sec.x = 0; sec.y = y;
-  await grid(sec, list, cols, gapX, gapY, 100, 100);
+  await grid(sec, list, cols, gapX, gapY, 100, 100, leadId);
   let w = 0, h = 0;
   for (const c of sec.children) { w = Math.max(w, c.x + c.width); h = Math.max(h, c.y + c.height); }
   if (sec.resizeWithoutConstraints) sec.resizeWithoutConstraints(w + 100, h + 100); else sec.resize(w + 100, h + 100);
@@ -106,18 +112,18 @@ async function main() {
   const stages = [
     ["01 · Sketch (stage 1)", DATA.sketch, 3, 140, 160],
     ["02 · Wireframe (stage 2)", DATA.wire, 3, 140, 160],
-    ["03 · Mock-up desktop (stage 3)", DATA.screens.filter(s => s.id !== "09-shipper"), 4, 160, 180],
+    ["03 · Mock-up desktop (stage 3)", DATA.screens.filter(s => s.id !== "09-shipper"), 3, 160, 180, "00-landing"],
     ["04 · Mock-up mobile 390 px (stage 3)", DATA.mobiles.concat(DATA.screens.filter(s => s.id === "09-shipper")), 4, 120, 160],
   ];
-  for (const [name, list, cols, gx, gy] of stages) {
-    const sec = await stageSection(pStages, name, y, list, cols, gx, gy);
+  for (const [name, list, cols, gx, gy, lead] of stages) {
+    const sec = await stageSection(pStages, name, y, list, cols, gx, gy, lead);
     y += sec.height + 400;
   }
 
   // ---------- Page 3: 05 Prototype (stage 4) – frames with hot-spots
   const pP = await usePage(2, "05 · Prototype (stage 4)");
   await figma.setCurrentPageAsync(pP);
-  const frames = await grid(pP, DATA.screens, 4, 200, 220);
+  const frames = await grid(pP, DATA.screens, 3, 200, 220, 0, 0, "00-landing");
   let links = 0;
   for (const s of DATA.screens) {
     const f = frames[s.id];
