@@ -121,16 +121,37 @@ async function labelFor(page, frame, caption) {
   return t;
 }
 
-async function grid(page, list, cols, gapX, gapY, startY) {
-  let x = 0, y = startY || 0, col = 0, rowH = 0; const made = {};
+async function grid(page, list, cols, gapX, gapY, startY, startX) {
+  const x0 = startX || 0;
+  let x = x0, y = startY || 0, col = 0, rowH = 0; const made = {};
   for (const s of list) {
     const f = imageFrame(page, s, x, y + 60);
     await labelFor(page, f, s.title);
     made[s.id] = f; rowH = Math.max(rowH, s.h + 60);
     col++; x += s.w + gapX;
-    if (col === cols) { col = 0; x = 0; y += rowH + gapY; rowH = 0; }
+    if (col === cols) { col = 0; x = x0; y += rowH + gapY; rowH = 0; }
   }
   return made;
+}
+
+// The free Starter plan allows 3 pages per design file, so the file uses exactly 3 pages and
+// shows the design stages as named sections. Re-running the plugin reuses and clears the same pages.
+async function usePage(index, name) {
+  let p = figma.root.children[index];
+  if (!p) p = figma.createPage();
+  await p.loadAsync();
+  for (const n of [...p.children]) n.remove();
+  p.name = name; return p;
+}
+
+async function stageSection(page, name, y, list, cols, gapX, gapY) {
+  const sec = figma.createSection ? figma.createSection() : figma.createFrame();
+  sec.name = name; page.appendChild(sec); sec.x = 0; sec.y = y;
+  await grid(sec, list, cols, gapX, gapY, 100, 100);
+  let w = 0, h = 0;
+  for (const c of sec.children) { w = Math.max(w, c.x + c.width); h = Math.max(h, c.y + c.height); }
+  if (sec.resizeWithoutConstraints) sec.resizeWithoutConstraints(w + 100, h + 100); else sec.resize(w + 100, h + 100);
+  return sec;
 }
 
 async function setLink(node, destId) {
@@ -144,30 +165,43 @@ async function main() {
   await figma.loadFontAsync({ family: "Inter", style: "Regular" });
   await figma.loadFontAsync({ family: "Inter", style: "Bold" });
   await figma.loadFontAsync({ family: "Inter", style: "Semi Bold" });
-  figma.root.name = "SaigonBite – Team G7 – Part 2 UI/UX";
+  try { figma.root.name = "SaigonBite – Team G7 – Part 2 UI/UX"; } catch (e) { /* the file name is set by the user */ }
 
-  // ---------- 00 Cover
-  const cover = figma.currentPage; cover.name = "00 · Cover";
+  // ---------- Page 1: 00 Cover + design system
+  const cover = await usePage(0, "00 · Cover & design system");
+  await figma.setCurrentPageAsync(cover);
   const cf = figma.createFrame(); cf.name = "Cover"; cf.resize(1600, 900); cf.fills = [{ type: "SOLID", color: C.navy }]; cover.appendChild(cf);
   const lg = figma.createRectangle(); lg.name = "SaigonBite logo"; lg.resize(DATA.brand.logo.w / 1.6, DATA.brand.logo.h / 1.6); lg.x = 80; lg.y = 70;
   lg.fills = [{ type: "IMAGE", imageHash: figma.createImage(figma.base64Decode(DATA.brand.logo.img)).hash, scaleMode: "FIT" }]; cf.appendChild(lg);
   await text(cf, "Cloud-kitchen food delivery hub – UI/UX prototype (Part 2)", 100, 250, 34, "Semi Bold", { r: .85, g: .9, b: .94 });
   await text(cf, "Team G7 · Lê Xuân Khánh (524H0055) – UC1 Place and Manage Orders · Ngô Bình Minh (524H0169) – UC2 Manage Hubs & Capacity", 100, 320, 22, "Regular", { r: .8, g: .86, b: .9 }, 1400);
-  await text(cf, "Pages: 01 Sketch → 02 Wireframe → 03 Mock-up (desktop) → 04 Mock-up (mobile) → 05 Prototype · 06 Design system", 100, 420, 22, "Regular", C.white, 1400);
+  await text(cf, "Pages: 00 Cover & design system · 01–04 Design stages (sections: Sketch → Wireframe → Mock-up desktop → Mock-up mobile) · 05 Prototype", 100, 420, 22, "Regular", C.white, 1400);
   await text(cf, "Prototype flows (Present ▶ on page 05): ① Local customer orders with cash  ② Foreign tourist pays with PayPal sandbox  ③ Admin: dashboard, hubs (UC2), reports R1 & R2", 100, 470, 22, "Regular", C.white, 1400);
   await text(cf, "Bootstrap 5 responsive grid · English / Vietnamese · ASP.NET Core MVC (Tier 4)", 100, 800, 20, "Semi Bold", { r: .95, g: .55, b: .4 });
 
-  // ---------- 01 Sketch, 02 Wireframe
-  const pS = figma.createPage(); pS.name = "01 · Sketch (stage 1)"; await grid(pS, DATA.sketch, 3, 140, 160);
-  const pW = figma.createPage(); pW.name = "02 · Wireframe (stage 2)"; await grid(pW, DATA.wire, 3, 140, 160);
-  // ---------- 03 Mock-up desktop, 04 mobile
-  const pM = figma.createPage(); pM.name = "03 · Mock-up desktop (stage 3)";
-  await grid(pM, DATA.screens.filter(s => s.id !== "09-shipper"), 4, 160, 180);
-  const pMo = figma.createPage(); pMo.name = "04 · Mock-up mobile 390 px (stage 3)";
-  await grid(pMo, DATA.mobiles.concat(DATA.screens.filter(s => s.id === "09-shipper")), 4, 120, 160);
+  // design system (brand sheet) under the cover
+  await text(cover, "Design system – SaigonBite brand essentials (logo, colours, type)", 0, 1040, 32, "Bold", C.navy);
+  const df = figma.createFrame(); df.name = "Design system – brand essentials"; df.resize(DATA.brand.sheet.w, DATA.brand.sheet.h);
+  df.fills = [{ type: "IMAGE", imageHash: figma.createImage(figma.base64Decode(DATA.brand.sheet.img)).hash, scaleMode: "FILL" }];
+  df.x = 0; df.y = 1110; cover.appendChild(df);
 
-  // ---------- 05 Prototype (stage 4) – frames with hot-spots
-  const pP = figma.createPage(); pP.name = "05 · Prototype (stage 4)";
+  // ---------- Page 2: 01–04 design stages, one section per stage, stacked top to bottom
+  const pStages = await usePage(1, "01–04 · Sketch → Wireframe → Mock-up");
+  await figma.setCurrentPageAsync(pStages);
+  let y = 0;
+  const stages = [
+    ["01 · Sketch (stage 1)", DATA.sketch, 3, 140, 160],
+    ["02 · Wireframe (stage 2)", DATA.wire, 3, 140, 160],
+    ["03 · Mock-up desktop (stage 3)", DATA.screens.filter(s => s.id !== "09-shipper"), 4, 160, 180],
+    ["04 · Mock-up mobile 390 px (stage 3)", DATA.mobiles.concat(DATA.screens.filter(s => s.id === "09-shipper")), 4, 120, 160],
+  ];
+  for (const [name, list, cols, gx, gy] of stages) {
+    const sec = await stageSection(pStages, name, y, list, cols, gx, gy);
+    y += sec.height + 400;
+  }
+
+  // ---------- Page 3: 05 Prototype (stage 4) – frames with hot-spots
+  const pP = await usePage(2, "05 · Prototype (stage 4)");
   await figma.setCurrentPageAsync(pP);
   const frames = await grid(pP, DATA.screens, 4, 200, 220);
   let links = 0;
@@ -188,13 +222,6 @@ async function main() {
     { nodeId: frames["10-admin-dashboard"].id, name: "3 · Admin – dashboard, hubs (UC2), reports R1 & R2" },
   ];
 
-  // ---------- 06 Design system (brand sheet)
-  const pD = figma.createPage(); pD.name = "06 · Design system";
-  const df = figma.createFrame(); df.name = "Brand essentials"; df.resize(DATA.brand.sheet.w, DATA.brand.sheet.h);
-  df.fills = [{ type: "IMAGE", imageHash: figma.createImage(figma.base64Decode(DATA.brand.sheet.img)).hash, scaleMode: "FILL" }];
-  pD.appendChild(df);
-
-  await figma.setCurrentPageAsync(pP);
   figma.viewport.scrollAndZoomIntoView(Object.values(frames));
   figma.closePlugin(`SaigonBite file built: ${DATA.screens.length} prototype screens, ${links} links, 3 flows.`);
 }

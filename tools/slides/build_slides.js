@@ -275,7 +275,7 @@ pres.addSection({ title: "UI/UX" });
 {
   const s = content("UI/UX", "2.6 UI/UX DESIGN · FOUR STAGES", "From sketch to a clickable Figma prototype", "Minh");
   pic(s, UI("ui_stages.png"), 0.4, 1.4, 7.8, 5.65, { frame: false });
-  card(s, 8.45, 1.5, 4.4, 1.55, "Figma file", "00 Cover · 01 Sketch · 02 Wireframe · 03 Mock-up desktop · 04 Mobile · 05 Prototype (3 flows) · 06 Brand & design system", C.accent1, { bs: 12.5 });
+  card(s, 8.45, 1.5, 4.4, 1.55, "Figma file", "00 Cover & design system · 01–04 Sketch → Wireframe → Mock-up (one section each) · 05 Prototype (3 flows)", C.accent1, { bs: 12.5 });
   card(s, 8.45, 3.2, 4.4, 1.35, "Bootstrap 5 grid", "Customer flow at 390 px and 1440 px; EN/VI toggle (NFR3).", C.accent6, { bs: 12.5 });
   card(s, 8.45, 4.7, 4.4, 1.35, "Real data, real rules", "Checkout totals follow BR10: 205,000 ₫ (Local) and 269,000 ₫ (Tourist).", C.accent2, { bs: 12.5 });
   s.addText([{ text: "Live demo: ", options: { bold: true, color: C.accent1 } }, { text: FIGMA, options: { color: C.text2 } }],

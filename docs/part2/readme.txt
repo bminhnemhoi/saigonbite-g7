@@ -14,7 +14,8 @@ Three flows start there:
   1  Local customer – landing -> sign in -> choose a hub -> menu -> checkout (cash, 205,000 VND) -> tracking  (UC1)
   2  Foreign tourist – checkout -> PayPal sandbox payment (269,000 VND) -> tracking  (UC1, Tier 4 a)
   3  Admin – dashboard (Tier 4 b) -> hubs and capacity (UC2) -> Revenue R1 -> Hub Utilization R2
-Other pages: 01 Sketch, 02 Wireframe, 03 Mock-up desktop, 04 Mock-up mobile, 06 Design system (brand).
+Other pages: "00 · Cover & design system" (brand) and "01–04 · Sketch → Wireframe → Mock-up"
+(one section per stage: 01 Sketch, 02 Wireframe, 03 Mock-up desktop, 04 Mock-up mobile 390 px).
 
 ------------------------------------------------------------------------
 GITHUB REPOSITORY

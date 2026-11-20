@@ -366,7 +366,7 @@ if not a.part1_only:
     p = para("Figma prototype (public, view only): ", bold_lead=None)
     p.runs[0].bold = True
     p.add_run(a.figma)
-    para("The Figma file has the pages 01 Sketch, 02 Wireframe, 03 Mock-up desktop, 04 Mock-up mobile, 05 Prototype (three flows: Local customer with cash, Foreign tourist with the PayPal sandbox, Admin with hubs and reports) and 06 Design system.")
+    para("The Figma file has three pages: 00 Cover & design system (brand essentials); 01–04 Sketch → Wireframe → Mock-up, with one section per stage (01 Sketch, 02 Wireframe, 03 Mock-up desktop, 04 Mock-up mobile 390 px); and 05 Prototype, with three flows: Local customer with cash, Foreign tourist with the PayPal sandbox, and Admin with hubs and reports.")
     t = tpl_table(10, len(C.UI_MAP))
     for j, hdr in enumerate(["Screen", "Requirements shown", "Figure"]):
         write_header(t.rows[0].cells[j], hdr)
