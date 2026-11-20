@@ -5,17 +5,22 @@ ASP.NET Core MVC (Code First) + Entity Framework Core + SQL Server + Bootstrap 5
 + (a) live PayPal Developer sandbox, (b) interactive Admin dashboard, (c) Playwright end-to-end tests
 
 ------------------------------------------------------------------------
-FIGMA PROTOTYPE (public, anyone with the link can view)
+FIGMA (public, anyone with the link can view)
 ------------------------------------------------------------------------
-[PASTE THE FIGMA LINK HERE]
+Clickable prototype – opens in Present mode at flow 1 (the landing page):
+https://www.figma.com/proto/ADppt5rvGp5uS6E7Bb8X7G/SaigonBite-%E2%80%93-Team-G7-%E2%80%93-Part-2-UI-UX?node-id=2-603&p=f&scaling=scale-down-width&content-scaling=fixed&page-id=2%3A104&starting-point-node-id=2%3A603&show-proto-sidebar=1
 
-How to view: open the link, go to page "05 · Prototype (stage 4)" and press Present.
-Three flows start there:
+Design file – all pages:
+https://www.figma.com/design/ADppt5rvGp5uS6E7Bb8X7G/SaigonBite-%E2%80%93-Team-G7-%E2%80%93-Part-2-UI-UX
+
+How to view: open the prototype link. The three flows are listed in the left panel;
+click a flow, then click the buttons on the screen (hot-spots) to move through it:
   1  Local customer – landing -> sign in -> choose a hub -> menu -> checkout (cash, 205,000 VND) -> tracking  (UC1)
   2  Foreign tourist – checkout -> PayPal sandbox payment (269,000 VND) -> tracking  (UC1, Tier 4 a)
   3  Admin – dashboard (Tier 4 b) -> hubs and capacity (UC2) -> Revenue R1 -> Hub Utilization R2
-Other pages: "00 · Cover & design system" (brand) and "01–04 · Sketch → Wireframe → Mock-up"
-(one section per stage: 01 Sketch, 02 Wireframe, 03 Mock-up desktop, 04 Mock-up mobile 390 px).
+Pages in the design file: "00 · Cover & design system" (brand), "01–04 · Sketch → Wireframe → Mock-up"
+(one section per stage: 01 Sketch, 02 Wireframe, 03 Mock-up desktop, 04 Mock-up mobile 390 px)
+and "05 · Prototype (stage 4)" (16 screens, 49 click links).
 
 ------------------------------------------------------------------------
 GITHUB REPOSITORY

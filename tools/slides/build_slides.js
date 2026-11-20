@@ -1,4 +1,4 @@
-// Team G7 – SaigonBite – Presentation 2 (Design Review, 7–10 minutes). Usage: node build_slides.js <out.pptx> [figmaUrl]
+// Team G7 – SaigonBite – Presentation 2 (Design Review, 7–10 minutes). Usage: node build_slides.js <out.pptx> [figmaFileUrl] [figmaPrototypeUrl]
 const fs = require("fs");
 const path = require("path");
 const pptxgen = require("pptxgenjs");
@@ -6,7 +6,10 @@ const { applyTheme } = require(process.env.SKILL_DIR + "/scripts/apply_theme.js"
 const NOTES = require("./notes.js");
 
 const OUT = process.argv[2] || "deck.pptx";
-const FIGMA = process.argv[3] || "Figma link in readme.txt";
+const FIGMA = process.argv[3] || "";
+const PROTO = process.argv[4] || FIGMA;
+const GITHUB = "https://github.com/bminhnemhoi/saigonbite-g7";
+const shortUrl = (u) => u.replace(/^https:\/\/(www\.)?/, "").split("?")[0].split("/").slice(0, 3).join("/");
 const R = (...p) => path.resolve(__dirname, "../..", ...p);
 const BRAND = (f) => R("design/brand", f);
 const UML = (f) => R("design/uml/out", f), ARC = (f) => R("design/architecture", f), UI = (f) => R("design/ui/out", f), IMG = (f) => R("design/ui/assets/img", f);
@@ -278,8 +281,13 @@ pres.addSection({ title: "UI/UX" });
   card(s, 8.45, 1.5, 4.4, 1.55, "Figma file", "00 Cover & design system · 01–04 Sketch → Wireframe → Mock-up (one section each) · 05 Prototype (3 flows)", C.accent1, { bs: 12.5 });
   card(s, 8.45, 3.2, 4.4, 1.35, "Bootstrap 5 grid", "Customer flow at 390 px and 1440 px; EN/VI toggle (NFR3).", C.accent6, { bs: 12.5 });
   card(s, 8.45, 4.7, 4.4, 1.35, "Real data, real rules", "Checkout totals follow BR10: 205,000 ₫ (Local) and 269,000 ₫ (Tourist).", C.accent2, { bs: 12.5 });
-  s.addText([{ text: "Live demo: ", options: { bold: true, color: C.accent1 } }, { text: FIGMA, options: { color: C.text2 } }],
-    { x: 8.45, y: 6.25, w: 4.4, h: 0.7, fontSize: 12, valign: "top", isTextBox: true });
+  s.addText(FIGMA ? [
+    { text: "Live demo: ", options: { bold: true, color: C.accent1 } },
+    { text: "open the clickable prototype ▶", options: { bold: true, hyperlink: { url: PROTO, tooltip: "Figma prototype – three flows" }, breakLine: true } },
+    { text: "File: ", options: { color: C.text2 } },
+    { text: shortUrl(FIGMA), options: { hyperlink: { url: FIGMA, tooltip: "Figma design file – all pages" } } },
+  ] : [{ text: "Live demo: ", options: { bold: true, color: C.accent1 } }, { text: "Figma link in readme.txt", options: { color: C.text2 } }],
+    { x: 8.45, y: 6.2, w: 4.4, h: 0.75, fontSize: 12, valign: "top", margin: 0, isTextBox: true });
 }
 {
   const s = content("UI/UX", "LANDING PAGE · FIRST IMPRESSION", "Landing page: Saigon by night", "Minh");
@@ -339,6 +347,16 @@ pres.addSection({ title: "Close" });
       { x: 1.4, y: y - 0.08, w: 4.9, h: 1.0, valign: "top", margin: 0, isTextBox: true });
   });
   s.addText("Questions?", { x: 0.7, y: 6.45, w: 5, h: 0.6, fontSize: 24, bold: true, color: C.accent1, isTextBox: true });
+  // project links on a white card over the photo (hyperlinks keep the theme link colour, readable on white)
+  s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: 6.62, y: 6.12, w: 6.45, h: 0.95, rectRadius: 0.08, fill: { color: "FFFFFF" }, line: { color: "FFFFFF" }, objectName: "Links card" });
+  const links = [];
+  if (FIGMA) links.push({ text: "Figma prototype ▶", options: { bold: true, hyperlink: { url: PROTO, tooltip: "Clickable prototype – three flows" } } },
+    { text: "    ·    ", options: { color: "8A97A5" } },
+    { text: "Figma file", options: { bold: true, hyperlink: { url: FIGMA, tooltip: "Figma design file – all pages" } } },
+    { text: "    ·    ", options: { color: "8A97A5" } });
+  links.push({ text: "GitHub repository", options: { bold: true, hyperlink: { url: GITHUB, tooltip: "Design sources and, from Part 3, the code" }, breakLine: true } },
+    { text: (FIGMA ? shortUrl(FIGMA) + "  ·  " : "") + shortUrl(GITHUB), options: { fontSize: 10, color: "5B6B7A" } });
+  s.addText(links, { x: 6.72, y: 6.17, w: 6.25, h: 0.85, fontSize: 14, align: "center", valign: "middle", margin: 0, isTextBox: true, objectName: "Project links" });
   s.addNotes(NOTES[n++]);
 }
 
@@ -352,9 +370,10 @@ pres.addSection({ title: "Close" });
     let xml = await zip.file(name).async("string");
     if (!xml.includes("<p:transition")) {
       xml = xml.replace("</p:clrMapOvr>", '</p:clrMapOvr><p:transition spd="med"><p:fade/></p:transition>');
-      zip.file(name, xml);
+      zip.file(name, xml, { createFolders: false });
     }
   }
+  zip.forEach((p, f) => { if (f.dir) zip.remove(p); });   // zip.file() can add folder entries back
   fs.writeFileSync(OUT, await zip.generateAsync({ type: "nodebuffer", compression: "DEFLATE" }));
   console.log("wrote", OUT, "slides:", n);
 })();

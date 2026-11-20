@@ -13,6 +13,8 @@ import docx
 import docx.text.paragraph
 from docx.enum.section import WD_ORIENT, WD_SECTION
 from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_BREAK
+from docx.opc.constants import RELATIONSHIP_TYPE as RT
+from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 from docx.shared import Inches, Pt, RGBColor
 from docx.table import Table
@@ -23,7 +25,8 @@ import content_part2 as C  # noqa: E402
 
 ap = argparse.ArgumentParser()
 ap.add_argument("root"); ap.add_argument("part1"); ap.add_argument("template"); ap.add_argument("out")
-ap.add_argument("--figma", default="[Figma link – added after publishing, see readme.txt]")
+ap.add_argument("--figma", default="[Figma link – added after publishing, see readme.txt]", help="Figma design file URL")
+ap.add_argument("--figma-proto", default="", help="Figma prototype (Present) URL")
 ap.add_argument("--github", default="https://github.com/bminhnemhoi/saigonbite-g7")
 ap.add_argument("--part1-only", action="store_true", help="Part 1 resubmission: Tier 4 updates without the Part 2 chapter")
 a = ap.parse_args()
@@ -130,6 +133,27 @@ def para(text="", style=None, bold_lead=None, size=None, italic=False, align=Non
     if keep:
         p.paragraph_format.keep_with_next = True
     return p
+
+
+def link(p, url, text=None):
+    """Append a clickable hyperlink run (kept as a live link in the PDF export); plain text when url is not a URL."""
+    if not url.startswith("http"):
+        return p.add_run(text or url)
+    r_id = p.part.relate_to(url, RT.HYPERLINK, is_external=True)
+    h = OxmlElement("w:hyperlink"); h.set(qn("r:id"), r_id)
+    r = OxmlElement("w:r"); rpr = OxmlElement("w:rPr")
+    col = OxmlElement("w:color"); col.set(qn("w:val"), "0563C1"); rpr.append(col)
+    u = OxmlElement("w:u"); u.set(qn("w:val"), "single"); rpr.append(u)
+    r.append(rpr)
+    t = OxmlElement("w:t"); t.text = text or url; t.set(qn("xml:space"), "preserve"); r.append(t)
+    h.append(r); p._p.append(h)
+    return h
+
+
+def short_url(url):
+    """https://www.figma.com/design/KEY/Title?... -> https://www.figma.com/design/KEY (the title part is optional)."""
+    parts = url.split("?")[0].split("/")
+    return "/".join(parts[:5]) if "figma.com" in url else url
 
 
 def heading(text, level):
@@ -276,7 +300,12 @@ if not a.part1_only:
     # 2.1
     heading("2.1 Overall Use Case Diagram", 2)
     para(C.UC_OVERVIEW)
-    para("Links: GitHub repository ", bold_lead=None).add_run(a.github)
+    p = para(bold_lead="Project links: ")
+    p.add_run("GitHub repository "); link(p, a.github)
+    if a.figma.startswith("http"):
+        p.add_run(" · Figma file "); link(p, a.figma, short_url(a.figma))
+    if a.figma_proto:
+        p.add_run(" · clickable prototype "); link(p, a.figma_proto, short_url(a.figma_proto))
     land_figure(UML / "usecase_overview.png", "Overall use case diagram – system boundary, actor generalisation Customer → Local Customer / Foreign Tourist, UC1 and UC2 owners and the Tier 4 extension.")
 
     # 2.2
@@ -363,9 +392,11 @@ if not a.part1_only:
     section(False)
     heading("2.6 UI/UX Design", 2)
     para(C.UI_TEXT)
-    p = para("Figma prototype (public, view only): ", bold_lead=None)
-    p.runs[0].bold = True
-    p.add_run(a.figma)
+    p = para(bold_lead="Figma design file (public, anyone with the link can view): ")
+    link(p, a.figma, short_url(a.figma))
+    if a.figma_proto:
+        p = para(bold_lead="Clickable prototype (opens in Present mode, Fit width, at flow 1 – the landing page): ")
+        link(p, a.figma_proto, short_url(a.figma_proto))
     para("The Figma file has three pages: 00 Cover & design system (brand essentials); 01–04 Sketch → Wireframe → Mock-up, with one section per stage (01 Sketch, 02 Wireframe, 03 Mock-up desktop, 04 Mock-up mobile 390 px); and 05 Prototype, with three flows: Local customer with cash, Foreign tourist with the PayPal sandbox, and Admin with hubs and reports.")
     t = tpl_table(10, len(C.UI_MAP))
     for j, hdr in enumerate(["Screen", "Requirements shown", "Figure"]):

@@ -25,7 +25,8 @@ SKILL = os.environ.get("SKILL_DIR", r"C:/Users/Admin/.claude/skills/synced/8970a
 PACKAGE = ("TeamG7_Part2_Design.pdf", "TeamG7_Part2_Presentation.pptx", "readme.txt")
 
 ap = argparse.ArgumentParser()
-ap.add_argument("--figma", default="", help="public Figma link")
+ap.add_argument("--figma", default="", help="public Figma design file link")
+ap.add_argument("--figma-proto", default="", help="public Figma prototype (Present) link")
 ap.add_argument("--slides", action="store_true", help="rebuild the slides even without --figma")
 ap.add_argument("--sync", action="store_true", help="only move _pending/ files into place")
 ap.add_argument("--no-push", action="store_true")
@@ -67,10 +68,11 @@ fresh = {name: SUB / name for name in PACKAGE}
 # 1. readme.txt
 readme = SUB / "readme.txt"
 if a.figma:
-    readme.write_text(readme.read_text(encoding="utf-8").replace(PLACEHOLDER, a.figma), encoding="utf-8")
+    links = f"Prototype: {a.figma_proto}\nDesign file: {a.figma}" if a.figma_proto else a.figma
+    readme.write_text(readme.read_text(encoding="utf-8").replace(PLACEHOLDER, links), encoding="utf-8")
 
 # 2. report -> PDF with bookmarks
-figma_args = ["--figma", a.figma] if a.figma else []
+figma_args = (["--figma", a.figma] if a.figma else []) + (["--figma-proto", a.figma_proto] if a.figma_proto else [])
 run("python", "-X", "utf8", REPO / "tools/report/build_report.py", REPO,
     FINAL / "G7_Part1_Revised/_editable_source (not for submission)/TeamG7_SE_Final_Report_SaigonBite.docx",
     FINAL / "drive-download-20261025T122604Z-1-001/SE_Sem01_2627_Report_Template.docx", tmp / "report.docx", *figma_args)
@@ -82,7 +84,7 @@ fresh["TeamG7_Part2_Design.pdf"] = tmp / "report.pdf"
 # 3. slides -> PDF backup (only when the link changes the slides or when asked)
 if a.figma or a.slides:
     env = dict(os.environ, SKILL_DIR=SKILL, NODE_PATH=str(REPO / "tools/slides/node_modules"))
-    run("node", REPO / "tools/slides/build_slides.js", tmp / "deck.pptx", *([a.figma] if a.figma else []), env=env, cwd=REPO / "tools/slides")
+    run("node", REPO / "tools/slides/build_slides.js", tmp / "deck.pptx", *([a.figma, a.figma_proto or a.figma] if a.figma else []), env=env, cwd=REPO / "tools/slides")
     run("powershell.exe", "-NoProfile", "-ExecutionPolicy", "Bypass", "-File", REPO / "tools/slides/topdf.ps1",
         "-In", tmp / "deck.pptx", "-Out", tmp / "deck.pdf")
     put(tmp / "deck.pptx", SUB / "TeamG7_Part2_Presentation.pptx")
