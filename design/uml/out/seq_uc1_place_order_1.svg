@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1417" height="1026" viewBox="0 0 1417 1026" font-family="Segoe UI, Arial, sans-serif">
+<defs>
+<marker id="solid" viewBox="0 0 10 10" refX="9.5" refY="5" markerWidth="10" markerHeight="10" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2B3A4A"/></marker>
+<marker id="open" viewBox="0 0 10 10" refX="9.5" refY="5" markerWidth="10" markerHeight="10" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10" fill="none" stroke="#2B3A4A" stroke-width="1.5"/></marker>
+</defs>
+<style>
+.m{font-size:16px;fill:#1F2933}
+.n{font-weight:700;fill:#E4572E}
+.ln{stroke:#2B3A4A;stroke-width:1.5}
+.life{stroke:#9AA5B1;stroke-width:1.3;stroke-dasharray:6 6}
+.hd{font-size:16px;font-weight:700;fill:#12263A}
+.st{font-size:12.5px;fill:#5B6B7A;font-style:italic}
+.ft{font-size:15px;font-weight:700;fill:#FFFFFF}
+.gd{font-size:15px;fill:#12263A;font-weight:600}
+.nt{font-size:15px;fill:#1F2933}
+.sec{font-size:16px;font-weight:700;fill:#12263A}
+</style>
+<rect x="0" y="0" width="1417" height="1026" fill="#FFFFFF"/>
+<rect x="8" y="8" width="1401" height="1010" fill="none" stroke="#12263A" stroke-width="1.4"/>
+<path d="M8,8 H429 V24 L419,36 H8 z" fill="#12263A"/>
+<text x="18" y="28" class="ft">sd PlaceOrder (1/2) – check the hub and quote the price</text>
+<line x1="98.1" y1="132.0" x2="98.1" y2="1002.0" class="life"/>
+<line x1="346.1" y1="132.0" x2="346.1" y2="1002.0" class="life"/>
+<line x1="594.1" y1="132.0" x2="594.1" y2="1002.0" class="life"/>
+<line x1="842.1" y1="132.0" x2="842.1" y2="1002.0" class="life"/>
+<line x1="1010.7" y1="132.0" x2="1010.7" y2="1002.0" class="life"/>
+<line x1="1286.7" y1="132.0" x2="1286.7" y2="1002.0" class="life"/>
+<rect x="38.1" y="428.0" width="1308.6" height="542.0" fill="none" stroke="#5B6B7A" stroke-width="1.3"/>
+<line x1="38.1" y1="673.0" x2="1346.7" y2="673.0" stroke="#5B6B7A" stroke-dasharray="7 5"/>
+<rect x="836.1" y="288.0" width="12" height="136.0" fill="#E8EEF4" stroke="#12263A" stroke-width="1.1"/>
+<rect x="1004.7" y="739.0" width="12" height="170.0" fill="#E8EEF4" stroke="#12263A" stroke-width="1.1"/>
+<rect x="588.1" y="252.0" width="12" height="732.0" fill="#E8EEF4" stroke="#12263A" stroke-width="1.1"/>
+<rect x="340.1" y="195.0" width="12" height="789.0" fill="#E8EEF4" stroke="#12263A" stroke-width="1.1"/>
+<path d="M38.1,428.0 H75.1 V442.0 L66.1,451.0 H38.1 z" fill="#E8EEF4" stroke="#5B6B7A"/>
+<text x="46.1" y="445.0" style="font-size:14px;font-weight:700;fill:#12263A">alt</text>
+<rect x="81.1" y="432.0" width="178.7" height="20" fill="#FFFFFF"/>
+<text x="84.1" y="447.0" class="gd">[load ≥ 90%  (BR8, FR7)]</text>
+<rect x="46.1" y="678.0" width="96.9" height="20" fill="#FFFFFF"/>
+<text x="49.1" y="693.0" class="gd">[load &lt; 90%]</text>
+<rect x="48.1" y="913.0" width="1288.6" height="37.0" fill="#FFFFFF" stroke="#12263A" stroke-width="1.4"/>
+<path d="M48.1,913.0 H100.1 V927.0 L91.1,936.0 H48.1 z" fill="#12263A"/>
+<text x="58.1" y="930.0" style="font-size:14px;font-weight:700;fill:#FFFFFF">ref</text>
+<text x="500.9" y="934.0" class="gd">PlaceOrder (2/2) – choose payment and save the order</text>
+<text x="108.1" y="172.0" class="m"><tspan class="n">1</tspan> POST /checkout (cart,</text>
+<text x="121.7" y="193.0" class="m">address, voucher, method)</text>
+<line x1="98.1" y1="200.0" x2="346.1" y2="200.0" class="ln" marker-end="url(#solid)"/>
+<text x="362.1" y="229.0" class="m"><tspan class="n">2</tspan> PlaceOrder(command,</text>
+<text x="375.7" y="250.0" class="m">customerId)</text>
+<line x1="352.1" y1="257.0" x2="594.1" y2="257.0" class="ln" marker-end="url(#solid)"/>
+<text x="610.1" y="286.0" class="m"><tspan class="n">3</tspan> GetLoad(hubId)</text>
+<line x1="600.1" y1="293.0" x2="842.1" y2="293.0" class="ln" marker-end="url(#solid)"/>
+<text x="858.1" y="322.0" class="m"><tspan class="n">4</tspan> count Confirmed + Preparing</text>
+<text x="871.7" y="343.0" class="m">orders</text>
+<line x1="848.1" y1="350.0" x2="1286.7" y2="350.0" class="ln" marker-end="url(#solid)"/>
+<text x="616.1" y="379.0" class="m"><tspan class="n">5</tspan> load = active ÷ capacity</text>
+<text x="629.7" y="400.0" class="m">(unrounded)</text>
+<line x1="836.1" y1="407.0" x2="600.1" y2="407.0" class="ln" stroke-dasharray="7 5" marker-end="url(#open)"/>
+<text x="610.1" y="474.0" class="m"><tspan class="n">6</tspan> FindAlternatives(address, 8</text>
+<text x="623.7" y="495.0" class="m">km)</text>
+<line x1="600.1" y1="502.0" x2="842.1" y2="502.0" class="ln" marker-end="url(#solid)"/>
+<text x="616.1" y="531.0" class="m"><tspan class="n">7</tspan> active hubs below 90%</text>
+<text x="629.7" y="552.0" class="m">(A-04)</text>
+<line x1="842.1" y1="559.0" x2="600.1" y2="559.0" class="ln" stroke-dasharray="7 5" marker-end="url(#open)"/>
+<text x="368.1" y="588.0" class="m"><tspan class="n">8</tspan> HubFull(alternatives)</text>
+<line x1="588.1" y1="595.0" x2="352.1" y2="595.0" class="ln" stroke-dasharray="7 5" marker-end="url(#open)"/>
+<text x="114.1" y="624.0" class="m"><tspan class="n">9</tspan> “This hub is busy – choose</text>
+<text x="127.7" y="645.0" class="m">another one”</text>
+<line x1="340.1" y1="652.0" x2="98.1" y2="652.0" class="ln" stroke-dasharray="7 5" marker-end="url(#open)"/>
+<text x="610.1" y="716.0" class="m"><tspan class="n">10</tspan> Quote(lines, km, time, load,</text>
+<text x="632.9" y="737.0" class="m">rain, voucher)</text>
+<line x1="600.1" y1="744.0" x2="1010.7" y2="744.0" class="ln" marker-end="url(#solid)"/>
+<text x="1054.7" y="777.0" class="m"><tspan class="n">11</tspan> check BR1, BR2, BR12</text>
+<path d="M1016.7,763.0 H1046.7 V789.0 H1018.7" class="ln" fill="none" marker-end="url(#solid)"/>
+<text x="1054.7" y="823.0" class="m"><tspan class="n">12</tspan> S → Q → V → F → D → R →</text>
+<text x="1077.6" y="844.0" class="m">R2, round once (BR10, BR11)</text>
+<path d="M1016.7,809.0 H1046.7 V855.0 H1018.7" class="ln" fill="none" marker-end="url(#solid)"/>
+<text x="616.1" y="885.0" class="m"><tspan class="n">13</tspan> PriceBreakdown</text>
+<line x1="1004.7" y1="892.0" x2="600.1" y2="892.0" class="ln" stroke-dasharray="7 5" marker-end="url(#open)"/>
+<g stroke="#12263A" stroke-width="1.9" fill="none"><circle cx="98.1171875" cy="56" r="8" fill="#FFFFFF"/><line x1="98.1171875" y1="64" x2="98.1171875" y2="78"/><line x1="86.1171875" y1="69" x2="110.1171875" y2="69"/><line x1="98.1171875" y1="78" x2="88.1171875" y2="89"/><line x1="98.1171875" y1="78" x2="108.1171875" y2="89"/></g>
+<text x="98.1171875" y="110" text-anchor="middle" class="hd">Customer</text>
+<text x="98.1171875" y="130" text-anchor="middle" class="hd">(Local / Tourist)</text>
+<rect x="258.0" y="73.0" width="176.3" height="59.0" rx="7" fill="#EAF3FB" stroke="#2E7DAF" stroke-width="1.6"/>
+<text x="346.1" y="93.0" text-anchor="middle" class="st">«boundary»</text>
+<text x="346.1" y="114.0" text-anchor="middle" class="hd">CheckoutController</text>
+<rect x="529.1" y="73.0" width="130.0" height="59.0" rx="7" fill="#FFFFFF" stroke="#12263A" stroke-width="1.6"/>
+<text x="594.1" y="93.0" text-anchor="middle" class="st">«control»</text>
+<text x="594.1" y="114.0" text-anchor="middle" class="hd">OrderService</text>
+<rect x="765.9" y="73.0" width="152.4" height="59.0" rx="7" fill="#FFFFFF" stroke="#12263A" stroke-width="1.6"/>
+<text x="842.1" y="93.0" text-anchor="middle" class="st">«control»</text>
+<text x="842.1" y="114.0" text-anchor="middle" class="hd">HubLoadService</text>
+<rect x="942.3" y="73.0" width="136.8" height="59.0" rx="7" fill="#FFFFFF" stroke="#12263A" stroke-width="1.6"/>
+<text x="1010.7" y="93.0" text-anchor="middle" class="st">«control»</text>
+<text x="1010.7" y="114.0" text-anchor="middle" class="hd">PricingService</text>
+<path d="M1190.6,87.0 v36.0 a96.1,9 0 0 0 192.2,0 v-36.0" fill="#F1F4F7" stroke="#5B6B7A" stroke-width="1.5"/>
+<ellipse cx="1286.7" cy="87.0" rx="96.1" ry="9" fill="#FFFFFF" stroke="#5B6B7A" stroke-width="1.5"/>
+<text x="1286.7" y="115.5" text-anchor="middle" class="hd">SaigonBiteDbContext</text>
+</svg>

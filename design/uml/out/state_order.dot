@@ -1,0 +1,36 @@
+digraph S { graph [fontname="Segoe UI" bgcolor="white" pad="0.3" rankdir=TB nodesep=0.9 ranksep=0.42 splines=spline]; node [fontname="Segoe UI" fontsize=14 color="#12263A" fontcolor="#1F2933"]; edge [fontname="Segoe UI" fontsize=13 color="#3B4A5A" fontcolor="#3B4A5A" arrowsize=1.0 penwidth=1.4 labelfontsize=13];
+init [shape=circle style=filled fillcolor="#12263A" width=0.28 label=""];
+Placed [shape=box style="rounded,filled" fillcolor="white" color="#12263A" penwidth=2 fontsize=16 width=2.2 height=0.55 label=<<B>Placed</B>>];
+Confirmed [shape=box style="rounded,filled" fillcolor="white" color="#12263A" penwidth=2 fontsize=16 width=2.2 height=0.55 label=<<B>Confirmed</B>>];
+Preparing [shape=box style="rounded,filled" fillcolor="white" color="#12263A" penwidth=2 fontsize=16 width=2.2 height=0.55 label=<<B>Preparing</B>>];
+Ready [shape=box style="rounded,filled" fillcolor="white" color="#12263A" penwidth=2 fontsize=16 width=2.2 height=0.55 label=<<B>Ready</B>>];
+OFD [shape=box style="rounded,filled" fillcolor="white" color="#12263A" penwidth=2 fontsize=16 width=2.2 height=0.55 label=<<B>Out for Delivery</B>>];
+Delivered [shape=box style="rounded,filled" fillcolor="#E8F5EE" color="#1E8A5F" penwidth=2 fontsize=16 width=2.2 height=0.55 label=<<B>Delivered</B>>];
+Cancelled [shape=box style="rounded,filled" fillcolor="#FDECEA" color="#C0392B" penwidth=2 fontsize=16 width=2.2 height=0.55 label=<<B>Cancelled</B>>];
+Failed [shape=box style="rounded,filled" fillcolor="#FDECEA" color="#C0392B" penwidth=2 fontsize=16 width=2.2 height=0.55 label=<<B>Failed</B>>];
+f1 [shape=doublecircle style=filled fillcolor="#12263A" width=0.2 label=""];
+f2 [shape=doublecircle style=filled fillcolor="#12263A" width=0.2 label=""];
+f3 [shape=doublecircle style=filled fillcolor="#12263A" width=0.2 label=""];
+init -> Placed [label=<<FONT POINT-SIZE="13"><B>place order</B><BR/>[BR1, BR2, BR8, BR12 pass]<BR/><FONT COLOR="#E4572E"><I>Customer</I></FONT></FONT>>];
+Placed -> Confirmed [label=<<FONT POINT-SIZE="13"><B>confirm</B><BR/>[staff of the order’s hub]<BR/><FONT COLOR="#E4572E"><I>Kitchen Staff</I></FONT></FONT>> weight=6];
+Confirmed -> Preparing [label=<<FONT POINT-SIZE="13"><B>start cooking</B><BR/><FONT COLOR="#E4572E"><I>Kitchen Staff</I></FONT></FONT>> weight=6];
+Preparing -> Ready [label=<<FONT POINT-SIZE="13"><B>mark ready</B><BR/><FONT COLOR="#E4572E"><I>Kitchen Staff</I></FONT></FONT>> weight=6];
+Ready -> OFD [label=<<FONT POINT-SIZE="13"><B>pick up</B><BR/>[shipper assigned by Admin (A-01)]<BR/><FONT COLOR="#E4572E"><I>Shipper</I></FONT></FONT>> weight=6];
+OFD -> Delivered [label=<<FONT POINT-SIZE="13"><B>deliver</B><BR/>[COD: cash confirmed (BR14)]<BR/><FONT COLOR="#E4572E"><I>Shipper</I></FONT></FONT>> weight=6];
+Placed -> Cancelled [label=<<FONT POINT-SIZE="13"><B>cancel / reject</B><BR/>[kitchen gives a reason]<BR/><FONT COLOR="#E4572E"><I>Customer · Kitchen Staff</I></FONT></FONT>>];
+Confirmed -> Cancelled [label=<<FONT POINT-SIZE="13"><B>cancel</B><BR/><FONT COLOR="#E4572E"><I>Customer · Admin</I></FONT></FONT>>];
+OFD -> Failed [label=<<FONT POINT-SIZE="13"><B>report failure</B><BR/>[customer unreachable]<BR/><FONT COLOR="#E4572E"><I>Shipper</I></FONT></FONT>>];
+Delivered -> f1;
+Cancelled -> f2;
+Failed -> f3;
+n1 [shape=note style=filled fillcolor="#FFF8E6" color="#E9A23B" fontsize=13 label="entry / full simulated refund\nif paid online (BR16)"];
+n2 [shape=note style=filled fillcolor="#FFF8E6" color="#E9A23B" fontsize=13 label="entry / online: full refund;\nCOD: nothing collected (A-02)"];
+n3 [shape=note style=filled fillcolor="#F1F4F7" color="#9AA5B1" fontsize=13 label="OrderStateMachine (business layer, BR15)\n• writes OrderStatusHistory on every\n  accepted transition (NFR6)\n• rejects every transition not drawn here"];
+Cancelled -> n1 [style=dashed arrowhead=none color="#E9A23B"];
+Failed -> n2 [style=dashed arrowhead=none color="#E9A23B"];
+init -> n3 [style=invis];
+{rank=same; init; n3}
+{rank=same; Preparing; Cancelled}
+{rank=same; Delivered; Failed}
+Cancelled -> f2 [style=invis];
+}

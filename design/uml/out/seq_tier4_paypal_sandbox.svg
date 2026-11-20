@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1350" height="1191" viewBox="0 0 1350 1191" font-family="Segoe UI, Arial, sans-serif">
+<defs>
+<marker id="solid" viewBox="0 0 10 10" refX="9.5" refY="5" markerWidth="10" markerHeight="10" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2B3A4A"/></marker>
+<marker id="open" viewBox="0 0 10 10" refX="9.5" refY="5" markerWidth="10" markerHeight="10" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10" fill="none" stroke="#2B3A4A" stroke-width="1.5"/></marker>
+</defs>
+<style>
+.m{font-size:16px;fill:#1F2933}
+.n{font-weight:700;fill:#E4572E}
+.ln{stroke:#2B3A4A;stroke-width:1.5}
+.life{stroke:#9AA5B1;stroke-width:1.3;stroke-dasharray:6 6}
+.hd{font-size:16px;font-weight:700;fill:#12263A}
+.st{font-size:12.5px;fill:#5B6B7A;font-style:italic}
+.ft{font-size:15px;font-weight:700;fill:#FFFFFF}
+.gd{font-size:15px;fill:#12263A;font-weight:600}
+.nt{font-size:15px;fill:#1F2933}
+.sec{font-size:16px;font-weight:700;fill:#12263A}
+</style>
+<rect x="0" y="0" width="1350" height="1191" fill="#FFFFFF"/>
+<rect x="8" y="8" width="1334" height="1175" fill="none" stroke="#12263A" stroke-width="1.4"/>
+<path d="M8,8 H360 V24 L350,36 H8 z" fill="#12263A"/>
+<text x="18" y="28" class="ft">sd PayWithPayPal – Tier 4 live sandbox (FR36)</text>
+<line x1="95.7" y1="123.0" x2="95.7" y2="1167.0" class="life"/>
+<line x1="343.7" y1="123.0" x2="343.7" y2="1167.0" class="life"/>
+<line x1="591.7" y1="123.0" x2="591.7" y2="1167.0" class="life"/>
+<line x1="776.8" y1="123.0" x2="776.8" y2="1167.0" class="life"/>
+<line x1="1024.8" y1="123.0" x2="1024.8" y2="1167.0" class="life"/>
+<line x1="1219.4" y1="123.0" x2="1219.4" y2="1167.0" class="life"/>
+<rect x="35.7" y="800.0" width="1243.8" height="335.0" fill="none" stroke="#5B6B7A" stroke-width="1.3"/>
+<line x1="35.7" y1="988.0" x2="1279.4" y2="988.0" stroke="#5B6B7A" stroke-dasharray="7 5"/>
+<rect x="770.8" y="237.0" width="12" height="151.0" fill="#E8EEF4" stroke="#12263A" stroke-width="1.1"/>
+<rect x="585.7" y="201.0" width="12" height="280.0" fill="#E8EEF4" stroke="#12263A" stroke-width="1.1"/>
+<rect x="337.7" y="165.0" width="12" height="352.0" fill="#E8EEF4" stroke="#12263A" stroke-width="1.1"/>
+<rect x="770.8" y="738.0" width="12" height="411.0" fill="#E8EEF4" stroke="#12263A" stroke-width="1.1"/>
+<rect x="585.7" y="702.0" width="12" height="447.0" fill="#E8EEF4" stroke="#12263A" stroke-width="1.1"/>
+<rect x="337.7" y="666.0" width="12" height="483.0" fill="#E8EEF4" stroke="#12263A" stroke-width="1.1"/>
+<path d="M35.7,800.0 H72.6 V814.0 L63.6,823.0 H35.7 z" fill="#E8EEF4" stroke="#5B6B7A"/>
+<text x="43.7" y="817.0" style="font-size:14px;font-weight:700;fill:#12263A">alt</text>
+<rect x="78.6" y="804.0" width="104.8" height="20" fill="#FFFFFF"/>
+<text x="81.6" y="819.0" class="gd">[COMPLETED]</text>
+<rect x="43.7" y="993.0" width="258.8" height="20" fill="#FFFFFF"/>
+<text x="46.7" y="1008.0" class="gd">[declined or cancelled by the buyer]</text>
+<text x="105.7" y="163.0" class="m"><tspan class="n">1</tspan> Pay with PayPal</text>
+<line x1="95.7" y1="170.0" x2="343.7" y2="170.0" class="ln" marker-end="url(#solid)"/>
+<text x="359.7" y="199.0" class="m"><tspan class="n">2</tspan> PlaceOrder(method = PayPal)</text>
+<line x1="349.7" y1="206.0" x2="591.7" y2="206.0" class="ln" marker-end="url(#solid)"/>
+<text x="607.7" y="235.0" class="m"><tspan class="n">3</tspan> Pay(order)</text>
+<line x1="597.7" y1="242.0" x2="776.8" y2="242.0" class="ln" marker-end="url(#solid)"/>
+<text x="792.8" y="271.0" class="m"><tspan class="n">4</tspan> OAuth token, POST</text>
+<text x="806.4" y="292.0" class="m">/v2/checkout/orders</text>
+<line x1="782.8" y1="299.0" x2="1024.8" y2="299.0" class="ln" marker-end="url(#solid)"/>
+<text x="798.8" y="328.0" class="m"><tspan class="n">5</tspan> order id + approve link</text>
+<line x1="1024.8" y1="335.0" x2="782.8" y2="335.0" class="ln" stroke-dasharray="7 5" marker-end="url(#open)"/>
+<text x="613.7" y="364.0" class="m"><tspan class="n">6</tspan> ApprovalRequired</text>
+<line x1="770.8" y1="371.0" x2="597.7" y2="371.0" class="ln" stroke-dasharray="7 5" marker-end="url(#open)"/>
+<text x="607.7" y="400.0" class="m"><tspan class="n">7</tspan> Order Placed, Payment</text>
+<text x="621.3" y="421.0" class="m">Pending</text>
+<line x1="597.7" y1="428.0" x2="1219.4" y2="428.0" class="ln" marker-end="url(#solid)"/>
+<text x="365.7" y="457.0" class="m"><tspan class="n">8</tspan> approve URL</text>
+<line x1="585.7" y1="464.0" x2="349.7" y2="464.0" class="ln" stroke-dasharray="7 5" marker-end="url(#open)"/>
+<text x="111.7" y="493.0" class="m"><tspan class="n">9</tspan> redirect to PayPal sandbox</text>
+<line x1="337.7" y1="500.0" x2="95.7" y2="500.0" class="ln" stroke-dasharray="7 5" marker-end="url(#open)"/>
+<text x="105.7" y="529.0" class="m"><tspan class="n">10</tspan> approve with the sandbox</text>
+<text x="128.5" y="550.0" class="m">buyer account</text>
+<line x1="95.7" y1="557.0" x2="1024.8" y2="557.0" class="ln" marker-end="url(#solid)"/>
+<text x="111.7" y="586.0" class="m"><tspan class="n">11</tspan> redirect to</text>
+<text x="134.5" y="607.0" class="m">/payments/paypal/return</text>
+<line x1="1024.8" y1="614.0" x2="95.7" y2="614.0" class="ln" stroke-dasharray="7 5" marker-end="url(#open)"/>
+<text x="105.7" y="643.0" class="m"><tspan class="n">12</tspan> GET</text>
+<text x="128.5" y="664.0" class="m">/payments/paypal/return</text>
+<line x1="95.7" y1="671.0" x2="343.7" y2="671.0" class="ln" marker-end="url(#solid)"/>
+<text x="359.7" y="700.0" class="m"><tspan class="n">13</tspan> ConfirmOnlinePayment(token)</text>
+<line x1="349.7" y1="707.0" x2="591.7" y2="707.0" class="ln" marker-end="url(#solid)"/>
+<text x="607.7" y="736.0" class="m"><tspan class="n">14</tspan> Capture(payment)</text>
+<line x1="597.7" y1="743.0" x2="776.8" y2="743.0" class="ln" marker-end="url(#solid)"/>
+<text x="792.8" y="772.0" class="m"><tspan class="n">15</tspan> POST …/orders/{id}/capture</text>
+<line x1="782.8" y1="779.0" x2="1024.8" y2="779.0" class="ln" marker-end="url(#solid)"/>
+<text x="798.8" y="846.0" class="m"><tspan class="n">16</tspan> capture id</text>
+<line x1="1024.8" y1="853.0" x2="782.8" y2="853.0" class="ln" stroke-dasharray="7 5" marker-end="url(#open)"/>
+<text x="607.7" y="882.0" class="m"><tspan class="n">17</tspan> Payment = Paid (capture id</text>
+<text x="630.5" y="903.0" class="m">stored)</text>
+<line x1="597.7" y1="910.0" x2="1219.4" y2="910.0" class="ln" marker-end="url(#solid)"/>
+<text x="111.7" y="939.0" class="m"><tspan class="n">18</tspan> payment confirmed →</text>
+<text x="134.5" y="960.0" class="m">tracking</text>
+<line x1="337.7" y1="967.0" x2="95.7" y2="967.0" class="ln" stroke-dasharray="7 5" marker-end="url(#open)"/>
+<text x="607.7" y="1031.0" class="m"><tspan class="n">19</tspan> Payment Failed; order</text>
+<text x="630.5" y="1052.0" class="m">Cancelled + history</text>
+<line x1="597.7" y1="1059.0" x2="1219.4" y2="1059.0" class="ln" marker-end="url(#solid)"/>
+<text x="111.7" y="1088.0" class="m"><tspan class="n">20</tspan> “Not paid – order</text>
+<text x="134.5" y="1109.0" class="m">cancelled”</text>
+<line x1="337.7" y1="1116.0" x2="95.7" y2="1116.0" class="ln" stroke-dasharray="7 5" marker-end="url(#open)"/>
+<g stroke="#12263A" stroke-width="1.9" fill="none"><circle cx="95.65625" cy="67" r="8" fill="#FFFFFF"/><line x1="95.65625" y1="75" x2="95.65625" y2="89"/><line x1="83.65625" y1="80" x2="107.65625" y2="80"/><line x1="95.65625" y1="89" x2="85.65625" y2="100"/><line x1="95.65625" y1="89" x2="105.65625" y2="100"/></g>
+<text x="95.65625" y="121" text-anchor="middle" class="hd">Foreign Tourist</text>
+<rect x="255.5" y="44.0" width="176.2" height="79.0" rx="7" fill="#EAF3FB" stroke="#2E7DAF" stroke-width="1.6"/>
+<text x="343.7" y="64.0" text-anchor="middle" class="st">«boundary»</text>
+<text x="343.7" y="85.0" text-anchor="middle" class="hd">Checkout /</text>
+<text x="343.7" y="105.0" text-anchor="middle" class="hd">Payment Controller</text>
+<rect x="526.7" y="64.0" width="130.0" height="59.0" rx="7" fill="#FFFFFF" stroke="#12263A" stroke-width="1.6"/>
+<text x="591.7" y="84.0" text-anchor="middle" class="st">«control»</text>
+<text x="591.7" y="105.0" text-anchor="middle" class="hd">OrderService</text>
+<rect x="704.4" y="44.0" width="144.7" height="79.0" rx="7" fill="#FFF1EC" stroke="#E4572E" stroke-width="1.6"/>
+<text x="776.8" y="64.0" text-anchor="middle" class="st">«interface»</text>
+<text x="776.8" y="85.0" text-anchor="middle" class="hd">PayPalSandbox</text>
+<text x="776.8" y="105.0" text-anchor="middle" class="hd">Strategy</text>
+<rect x="950.2" y="44.0" width="149.1" height="79.0" rx="7" fill="#FFF8E6" stroke="#C98A1E" stroke-width="1.6" stroke-dasharray="6 3"/>
+<text x="1024.8" y="64.0" text-anchor="middle" class="st">«external system»</text>
+<text x="1024.8" y="85.0" text-anchor="middle" class="hd">PayPal Sandbox</text>
+<text x="1024.8" y="105.0" text-anchor="middle" class="hd">REST API</text>
+<path d="M1123.3,78.0 v36.0 a96.1,9 0 0 0 192.2,0 v-36.0" fill="#F1F4F7" stroke="#5B6B7A" stroke-width="1.5"/>
+<ellipse cx="1219.4" cy="78.0" rx="96.1" ry="9" fill="#FFFFFF" stroke="#5B6B7A" stroke-width="1.5"/>
+<text x="1219.4" y="106.5" text-anchor="middle" class="hd">SaigonBiteDbContext</text>
+</svg>
