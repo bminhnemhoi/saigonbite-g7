@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Pricing pipeline</title>
+<link rel="stylesheet" href="style.css">
+<style>#capture{width:1500px}</style></head>
+<body><div id="capture">
+<h1>Pricing pipeline in PricingService – BR10 calculation order</h1>
+<p class="sub">Every step is one private method of one business-layer service, so each threshold can be unit-tested with EP and BVA.</p>
+<div class="gates">
+  <div class="gate"><b>Gate 1 · BR1</b> – item subtotal S ≥ 50,000</div>
+  <div class="gate"><b>Gate 2 · BR2</b> – distance ≤ 8.0 km</div>
+  <div class="gate"><b>Gate 3 · BR12</b> – 1–30 lines, quantity 1–20, items Available</div>
+  <div class="gate"><b>Gate 4 · BR8</b> – hub load below 90%</div>
+</div>
+<div class="price">
+  <div class="pc"><div class="k">S</div><div class="nm">Item subtotal</div><div class="rule">Σ price × quantity</div><span class="br">BR10 (1)</span></div>
+  <div class="op">−</div>
+  <div class="pc minus"><div class="k">Q</div><div class="nm">Quiet Kitchen</div><div class="rule">10% of S if load &lt; 30%</div><span class="br">BR7</span></div>
+  <div class="op">−</div>
+  <div class="pc minus"><div class="k">V</div><div class="nm">Voucher</div><div class="rule">on (S − Q), capped; max one</div><span class="br">BR9</span></div>
+  <div class="op">+</div>
+  <div class="pc plus"><div class="k">D</div><div class="nm">Delivery fee</div><div class="rule">by km tier; 0 if S ≥ 300,000</div><span class="br">BR3 · BR6</span></div>
+  <div class="op">+</div>
+  <div class="pc plus"><div class="k">R</div><div class="nm">Rush hour</div><div class="rule">20% of D, 11:00–13:00 and 17:30–19:30</div><span class="br">BR4</span></div>
+  <div class="op">+</div>
+  <div class="pc plus"><div class="k">R2</div><div class="nm">Heavy rain</div><div class="rule">10,000 while the flag is on</div><span class="br">BR5</span></div>
+  <div class="op">=</div>
+  <div class="pc total"><div class="k">Total</div><div class="nm">Rounded once</div><div class="rule">raw total to the nearest 1,000</div><span class="br">BR11 · BR14</span></div>
+</div>
+<div class="ex">
+  <div class="h">Spec example</div><div class="h">S</div><div class="h">Q</div><div class="h">V</div><div class="h">D</div><div class="h">R</div><div class="h">R2</div><div class="h">Raw</div><div class="h">Total</div>
+  <div>Local, 3.2 km, 15:00, load 20%</div><div>200,000</div><div>−20,000</div><div>0</div><div>+25,000</div><div>0</div><div>0</div><div>205,000</div><div><b>205,000</b></div>
+  <div>Tourist, 2.4 km, 18:10, rain, load 21%, voucher 10%</div><div>320,000</div><div>−32,000</div><div>−28,800</div><div>0 (BR6)</div><div>0</div><div>+10,000</div><div>269,200</div><div><b>269,000</b></div>
+</div>
+</div></body></html>

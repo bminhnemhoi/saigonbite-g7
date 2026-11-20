@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Place order pipeline</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link rel="stylesheet" href="style.css">
+<style>#capture{width:1500px}</style></head>
+<body><div id="capture">
+<h1>Request pipeline – “Place order” through the layers</h1>
+<p class="sub">One HTTP request, seven steps, one database transaction. The numbers match the UC1 sequence diagram.</p>
+<div class="flow">
+  <div class="step"><div class="n">1</div><div class="who">Browser</div><h3>POST /checkout</h3><p>Cart, address, voucher and payment method from the Bootstrap checkout page.</p></div>
+  <div class="chev"><i class="bi bi-chevron-right"></i></div>
+  <div class="step"><div class="n">2</div><div class="who">Presentation</div><h3>CheckoutController</h3><p>Checks the role, binds the view model, calls <b>OrderService</b>. No rules here.</p></div>
+  <div class="chev"><i class="bi bi-chevron-right"></i></div>
+  <div class="step"><div class="n">3</div><div class="who">Business</div><h3>HubLoadService</h3><p>Load = Confirmed + Preparing ÷ capacity. ≥ 90% → reject and offer other hubs.</p></div>
+  <div class="chev"><i class="bi bi-chevron-right"></i></div>
+  <div class="step"><div class="n">4</div><div class="who">Business</div><h3>PricingService</h3><p>BR1–BR12 in the BR10 order, rounded once. Returns the full price breakdown.</p></div>
+  <div class="chev"><i class="bi bi-chevron-right"></i></div>
+  <div class="step"><div class="n">5</div><div class="who">Business</div><h3>Payment strategy</h3><p>Resolver picks one of 5 strategies by customer type (BR13, BR14).</p></div>
+  <div class="chev"><i class="bi bi-chevron-right"></i></div>
+  <div class="step db"><div class="n">6</div><div class="who">Data</div><h3>One transaction</h3><p>Order (Placed) + lines + price snapshot + history row + payment record.</p></div>
+  <div class="chev"><i class="bi bi-chevron-right"></i></div>
+  <div class="step"><div class="n">7</div><div class="who">Presentation</div><h3>Tracking view</h3><p>Confirmation and the live status timeline for the customer.</p></div>
+</div>
+<div class="fail">
+  <div><b>Hub ≥ 90% (step 3)</b> – nothing is saved; the customer chooses a hub below 90% within 8 km.</div>
+  <div><b>Rule fails (steps 4–5)</b> – e.g. S &lt; 50,000 or COD above 1,000,000: the page explains which rule.</div>
+  <div><b>Payment fails (step 6)</b> – ROLLBACK, so no partial order exists (NFR5).</div>
+</div>
+</div></body></html>

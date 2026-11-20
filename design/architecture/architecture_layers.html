@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>SaigonBite architecture</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link rel="stylesheet" href="style.css">
+<style>#capture{width:1500px}</style></head>
+<body><div id="capture">
+<h1>SaigonBite architecture – ASP.NET Core MVC in three layers</h1>
+<p class="sub">Requests flow left to right. Controllers stay thin; every business rule lives in the business layer; only Entity Framework talks to SQL Server.</p>
+<div class="layers">
+  <div class="col client">
+    <h2>Clients</h2><div class="tag">Bootstrap 5 · EN / VI</div>
+    <div class="box"><i class="bi bi-phone ico"></i><b>Customer</b><small>Local · Tourist web app</small></div>
+    <div class="box"><i class="bi bi-tablet-landscape ico"></i><b>Kitchen</b><small>order board on a tablet</small></div>
+    <div class="box"><i class="bi bi-bicycle ico"></i><b>Shipper</b><small>mobile delivery list</small></div>
+    <div class="box"><i class="bi bi-speedometer2 ico"></i><b>Admin</b><small>hubs, reports, dashboard</small></div>
+  </div>
+  <div class="arrow"><i class="bi bi-arrow-right"></i></div>
+  <div class="col pres">
+    <h2>Presentation (MVC)</h2><div class="tag">Views · Controllers · ViewModels</div>
+    <div class="box b"><b>Razor Views + Bootstrap grid</b><small>responsive at 360 / 768 / 1280 px</small><span class="nfr">NFR3</span></div>
+    <div class="box b"><b>Controllers</b><small>Checkout, Orders, Kitchen, Shipper, Payments, Admin/Hubs, Admin/Reports, Admin/Dashboard</small></div>
+    <div class="box b"><b>[Authorize(Roles = …)]</b><small>Customer · Kitchen · Shipper · Admin</small><span class="nfr">NFR4</span></div>
+    <div class="box b"><b>ViewModels + validation</b><small>no pricing or state logic here</small><span class="nfr">NFR2</span></div>
+  </div>
+  <div class="arrow"><i class="bi bi-arrow-right"></i></div>
+  <div class="col biz">
+    <h2>Business layer (Services)</h2><div class="tag">all rules BR1–BR18 live here</div>
+    <div class="box k"><b>PricingService</b><small>BR1–BR12 in BR10 order, one rounding</small><span class="nfr">NFR1</span></div>
+    <div class="box k"><b>HubLoadService</b><small>load %, Quiet Kitchen, 90% protection</small></div>
+    <div class="box k"><b>OrderService + OrderStateMachine</b><small>8 states, role checks, history</small><span class="nfr">NFR5</span><span class="nfr">NFR6</span></div>
+    <div class="box k"><b>PaymentStrategyResolver</b><small>IPaymentStrategy × 5 (Strategy pattern)</small><span class="nfr">NFR2</span></div>
+    <div class="box k"><b>ReportService · DashboardService</b><small>R1, R2 and Tier 4 KPIs</small></div>
+  </div>
+  <div class="arrow"><i class="bi bi-arrow-right"></i></div>
+  <div class="col data">
+    <h2>Data layer</h2><div class="tag">EF Core 8 Code First</div>
+    <div class="box g"><b>SaigonBiteDbContext</b><small>entities, TPT customer profiles, owned price snapshot</small></div>
+    <div class="box g"><b>Migrations</b><small>schema versioned with the code</small></div>
+    <div class="box g"><b>Transactions + RowVersion</b><small>atomic order operations</small><span class="nfr">NFR5</span></div>
+    <div class="box g"><i class="bi bi-database ico"></i><b>SQL Server</b><small>one database, soft-delete flags</small></div>
+  </div>
+  <div class="arrow"><i class="bi bi-arrow-right"></i></div>
+  <div class="col ext">
+    <h2>External (Tier 4)</h2><div class="tag">called only by one strategy</div>
+    <div class="box a"><i class="bi bi-paypal ico"></i><b>PayPal Sandbox</b><small>OAuth2 + Orders v2: create, approve, capture</small></div>
+    <div class="box a"><b>Simulated gateways</b><small>MoMo · VNPay · Apple Pay behind the same interface</small></div>
+  </div>
+</div>
+<div class="bar">
+  <div class="lbl">Cross-cutting</div>
+  <div class="chip"><i class="bi bi-shield-lock"></i>ASP.NET Core Identity – PBKDF2 hashes, roles</div>
+  <div class="chip"><i class="bi bi-clock"></i>IClock – Vietnam time UTC+7</div>
+  <div class="chip"><i class="bi bi-translate"></i>Localization EN / VI</div>
+  <div class="chip"><i class="bi bi-journal-text"></i>OrderStatusHistory audit log</div>
+</div>
+<div class="bar">
+  <div class="lbl" style="background:#1E8A5F">Quality gates</div>
+  <div class="chip"><i class="bi bi-check2-square"></i>xUnit: EP/BVA on PricingService and state machine</div>
+  <div class="chip"><i class="bi bi-play-circle"></i>Playwright end-to-end tests (Tier 4)</div>
+  <div class="chip"><i class="bi bi-github"></i>GitHub – reviewed pull requests, tagged release</div>
+</div>
+</div></body></html>
