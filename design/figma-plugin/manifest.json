@@ -1,0 +1,15 @@
+{
+  "name": "SaigonBite G7 \u2013 Part 2 file builder",
+  "id": "saigonbite-g7-part2-builder",
+  "api": "1.0.0",
+  "main": "code.js",
+  "editorType": [
+    "figma"
+  ],
+  "documentAccess": "dynamic-page",
+  "networkAccess": {
+    "allowedDomains": [
+      "none"
+    ]
+  }
+}
