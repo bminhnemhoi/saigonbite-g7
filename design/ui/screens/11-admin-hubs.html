@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SaigonBite Admin – Hubs</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/@fontsource/be-vietnam-pro@5.0.8/400.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/@fontsource/be-vietnam-pro@5.0.8/600.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/@fontsource/be-vietnam-pro@5.0.8/700.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/@fontsource/be-vietnam-pro@5.0.8/800.css" rel="stylesheet">
+<link href="../assets/app.css" rel="stylesheet"><script src="../assets/mode.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style></style></head><body>
+<aside class="side"><div class="sb-logo"><img class="mk" src="../assets/brand/mark.svg" alt="SaigonBite"><div>Saigon<span>Bite</span></div></div>
+<div class="grp">Operations</div>
+<a data-goto="10-admin-dashboard"><i class="bi bi-speedometer2"></i>Dashboard<span class="t4">TIER 4</span></a>
+<a class="on" data-goto="11-admin-hubs"><i class="bi bi-shop"></i>Hubs &amp; capacity</a>
+<a><i class="bi bi-receipt"></i>Orders</a>
+<a><i class="bi bi-bicycle"></i>Shipper assignment</a>
+<div class="grp">Catalogue</div>
+<a><i class="bi bi-collection"></i>Brands &amp; menu</a>
+<a><i class="bi bi-ticket-perforated"></i>Vouchers</a>
+<div class="grp">Reports</div>
+<a data-goto="13-report-r1"><i class="bi bi-graph-up-arrow"></i>Revenue (R1)</a>
+<a data-goto="14-report-r2"><i class="bi bi-bar-chart-line"></i>Hub utilization (R2)</a>
+<div class="grp">System</div>
+<a><i class="bi bi-people"></i>Users</a>
+<a><i class="bi bi-cloud-rain"></i>Heavy-rain flag</a>
+<div style="position:absolute;bottom:20px;left:16px;right:16px" class="d-flex align-items-center gap-2 p-2 rounded-3" ><div class="sb-avatar" style="width:36px;height:36px;font-size:13px;background:#E4572E">HP</div><div style="line-height:1.2"><div class="text-white fw-semibold small">Nguyễn Hoàng Phúc</div><div class="small" style="color:#8FA3B7">System Admin</div></div></div></aside><div class="main"><div class="topbar"><div><h1>Hubs &amp; capacity</h1><div class="small text-slate">UC2 · create, view, edit and deactivate hubs · load = (Confirmed + Preparing) ÷ capacity</div></div><div class="ms-auto d-flex align-items-center gap-3"><a class="btn btn-primary btn-sm" data-goto="12-admin-hub-edit"><i class="bi bi-plus-lg me-1"></i>New hub</a><div class="sb-lang"><span>VI</span><span class="on">EN</span></div><div class="sb-icon-btn"><i class="bi bi-bell"></i><span class="sb-badge">3</span></div></div></div>
+<div class="p-4">
+ <div class="d-flex gap-2 mb-3"><span class="pill pill-green">Quiet &lt; 30% · 10% discount</span><span class="pill pill-amber">Normal 30–89%</span><span class="pill pill-red">Full ≥ 90% · no new orders</span><span class="ms-auto small text-slate">Load is compared unrounded (A-06)</span></div>
+ <div class="cardx overflow-hidden">
+ <table class="sb"><thead><tr><th>Hub</th><th>Brands</th><th>Capacity</th><th>Active</th><th style="width:240px">Current load</th><th>Status</th><th class="text-end">Actions</th></tr></thead><tbody>
+ <tr><td><b>Hub D1 · Quận 1</b><div class="small text-slate">72 Lê Thánh Tôn, Bến Nghé</div></td><td><span class="pill pill-gray">PE</span> <span class="pill pill-gray">BC</span> <span class="pill pill-gray">GB</span></td><td>25</td><td>23</td><td><div class="d-flex align-items-center gap-2"><div class="loadbar flex-grow-1"><i class="lb-red" style="width:92%"></i></div><b class="text-danger">92%</b></div></td><td><span class="pill pill-red">Full</span></td><td class="text-end"><a class="btn btn-soft btn-sm" data-goto="12-admin-hub-edit">Edit</a></td></tr>
+ <tr><td><b>Hub Q7 · Phú Mỹ Hưng</b><div class="small text-slate">23 Nguyễn Lương Bằng, Tân Phú</div></td><td><span class="pill pill-gray">PE</span> <span class="pill pill-gray">GB</span></td><td>18</td><td>10</td><td><div class="d-flex align-items-center gap-2"><div class="loadbar flex-grow-1"><i class="lb-amber" style="width:56%"></i></div><b style="color:#9A6412">56%</b></div></td><td><span class="pill pill-amber">Normal</span></td><td class="text-end"><a class="btn btn-soft btn-sm">Edit</a></td></tr>
+ <tr><td><b>Hub BT · Bình Thạnh</b><div class="small text-slate">208 Điện Biên Phủ, P.17</div></td><td><span class="pill pill-gray">PE</span> <span class="pill pill-gray">BC</span></td><td>19</td><td>9</td><td><div class="d-flex align-items-center gap-2"><div class="loadbar flex-grow-1"><i class="lb-amber" style="width:47%"></i></div><b style="color:#9A6412">47%</b></div></td><td><span class="pill pill-amber">Normal</span></td><td class="text-end"><a class="btn btn-soft btn-sm">Edit</a></td></tr>
+ <tr><td><b>Hub TD · Thủ Đức</b><div class="small text-slate">15 Võ Văn Ngân, Linh Chiểu</div></td><td><span class="pill pill-gray">PE</span> <span class="pill pill-gray">BC</span> <span class="pill pill-gray">GB</span></td><td>20</td><td>4</td><td><div class="d-flex align-items-center gap-2"><div class="loadbar flex-grow-1"><i class="lb-green" style="width:20%"></i></div><b class="text-success">20%</b></div></td><td><span class="pill pill-green">Quiet</span></td><td class="text-end"><a class="btn btn-soft btn-sm">Edit</a></td></tr>
+ <tr style="background:#FAFBFC"><td><b class="text-mute">Hub GV · Gò Vấp</b><div class="small text-mute">Deactivated 02 Nov 2026 – kept for history and R2</div></td><td><span class="pill pill-gray">BC</span></td><td class="text-mute">15</td><td class="text-mute">0</td><td class="text-mute small">not accepting orders</td><td><span class="pill pill-gray">Inactive</span></td><td class="text-end"><a class="btn btn-soft btn-sm">Reactivate</a></td></tr>
+ </tbody></table></div>
+ <div class="row g-3 mt-1">
+  <div class="col-6"><div class="cardx p-4 h-100 d-flex gap-3"><i class="bi bi-shield-check fs-3 text-success"></i><div><b>Protection rule (BR8)</b><div class="small text-slate">Hub D1 is at 92%, so customers see it as “Full” and are offered active hubs below 90% within 8 km (A-04).</div></div></div></div>
+  <div class="col-6"><div class="cardx p-4 h-100 d-flex gap-3"><i class="bi bi-archive fs-3 text-slate"></i><div><b>Delete = deactivate (A-07)</b><div class="small text-slate">A hub can be deactivated only when it has no order in Placed … Out for Delivery. Its history stays in reports.</div></div></div></div>
+ </div>
+</div></div><script>Chart.defaults.font.family='"Be Vietnam Pro","Segoe UI",sans-serif';Chart.defaults.font.size=13;Chart.defaults.color='#5B6B7A';
+Chart.defaults.plugins.legend.labels.boxWidth=12;Chart.defaults.plugins.legend.labels.boxHeight=12;Chart.defaults.animation=false;</script></body></html>

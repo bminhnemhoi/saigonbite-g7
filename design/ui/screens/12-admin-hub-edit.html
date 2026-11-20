@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SaigonBite Admin – Edit hub</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/@fontsource/be-vietnam-pro@5.0.8/400.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/@fontsource/be-vietnam-pro@5.0.8/600.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/@fontsource/be-vietnam-pro@5.0.8/700.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/@fontsource/be-vietnam-pro@5.0.8/800.css" rel="stylesheet">
+<link href="../assets/app.css" rel="stylesheet"><script src="../assets/mode.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style></style></head><body>
+<aside class="side"><div class="sb-logo"><img class="mk" src="../assets/brand/mark.svg" alt="SaigonBite"><div>Saigon<span>Bite</span></div></div>
+<div class="grp">Operations</div>
+<a data-goto="10-admin-dashboard"><i class="bi bi-speedometer2"></i>Dashboard<span class="t4">TIER 4</span></a>
+<a class="on" data-goto="11-admin-hubs"><i class="bi bi-shop"></i>Hubs &amp; capacity</a>
+<a><i class="bi bi-receipt"></i>Orders</a>
+<a><i class="bi bi-bicycle"></i>Shipper assignment</a>
+<div class="grp">Catalogue</div>
+<a><i class="bi bi-collection"></i>Brands &amp; menu</a>
+<a><i class="bi bi-ticket-perforated"></i>Vouchers</a>
+<div class="grp">Reports</div>
+<a data-goto="13-report-r1"><i class="bi bi-graph-up-arrow"></i>Revenue (R1)</a>
+<a data-goto="14-report-r2"><i class="bi bi-bar-chart-line"></i>Hub utilization (R2)</a>
+<div class="grp">System</div>
+<a><i class="bi bi-people"></i>Users</a>
+<a><i class="bi bi-cloud-rain"></i>Heavy-rain flag</a>
+<div style="position:absolute;bottom:20px;left:16px;right:16px" class="d-flex align-items-center gap-2 p-2 rounded-3" ><div class="sb-avatar" style="width:36px;height:36px;font-size:13px;background:#E4572E">HP</div><div style="line-height:1.2"><div class="text-white fw-semibold small">Nguyễn Hoàng Phúc</div><div class="small" style="color:#8FA3B7">System Admin</div></div></div></aside><div class="main"><div class="topbar"><div><h1>Edit hub · Hub D1 · Quận 1</h1><div class="small text-slate">UC2 · update capacity and brands, or deactivate (soft-delete)</div></div><div class="ms-auto d-flex align-items-center gap-3"><a class="btn btn-soft btn-sm" data-goto="11-admin-hubs"><i class="bi bi-arrow-left me-1"></i>Back to hubs</a><div class="sb-lang"><span>VI</span><span class="on">EN</span></div><div class="sb-icon-btn"><i class="bi bi-bell"></i><span class="sb-badge">3</span></div></div></div>
+<div class="p-4"><div class="row g-4">
+ <div class="col-7"><div class="cardx p-4">
+  <div class="row g-3">
+   <div class="col-6"><label class="form-label">Hub name</label><input class="form-control" value="Hub D1 · Quận 1"></div>
+   <div class="col-6"><label class="form-label">District</label><select class="form-select"><option>Quận 1</option></select></div>
+   <div class="col-12"><label class="form-label">Address</label><input class="form-control" value="72 Lê Thánh Tôn, Bến Nghé, Quận 1"></div>
+   <div class="col-6"><label class="form-label">Kitchen capacity <span class="text-slate fw-normal">(concurrent orders)</span></label><input class="form-control is-invalid" value="0"><div class="invalid-feedback d-block">Capacity must be a positive whole number (FR5).</div></div>
+   <div class="col-6"><label class="form-label">Status</label><select class="form-select"><option>Active – accepting orders</option></select></div>
+   <div class="col-12"><label class="form-label">Brands operated</label>
+    <div class="d-flex gap-2 flex-wrap">
+     <span class="brand-tab on" style="padding:7px 12px"><i class="bi bi-check2"></i>Pho Express</span>
+     <span class="brand-tab on" style="padding:7px 12px"><i class="bi bi-check2"></i>Banh Mi Corner</span>
+     <span class="brand-tab on" style="padding:7px 12px"><i class="bi bi-check2"></i>Green Bowl</span>
+     <span class="brand-tab" style="padding:7px 12px;color:#8A97A5"><i class="bi bi-plus"></i>Add brand</span></div></div>
+  </div>
+  <hr class="my-4"><div class="d-flex justify-content-end gap-2"><span class="btn btn-soft">Cancel</span><span class="btn btn-primary px-4">Save changes</span></div>
+ </div></div>
+ <div class="col-5 d-flex flex-column gap-4">
+  <div class="cardx p-4"><div class="eyebrow mb-2">Live load</div><div class="d-flex align-items-end gap-2"><div class="fw-800 text-danger" style="font-size:40px;line-height:1">92%</div><div class="text-slate mb-1">23 active ÷ 25 capacity</div></div><div class="loadbar mt-3" style="height:12px"><i class="lb-red" style="width:92%"></i></div>
+   <div class="d-flex justify-content-between small text-slate mt-1"><span>0</span><span>30% quiet</span><span>90% full</span><span>100%</span></div></div>
+  <div class="cardx p-4" style="border-color:#E7B3AC"><div class="eyebrow mb-2" style="color:var(--sb-red)">Danger zone</div>
+   <div class="fw-bold mb-1">Deactivate this hub</div><div class="small text-slate mb-3">Deactivation is a soft-delete: the hub stops taking orders but stays in order history and in R2.</div>
+   <div class="p-3 rounded-3 d-flex gap-2 mb-3" style="background:var(--sb-red-50)"><i class="bi bi-exclamation-octagon-fill text-danger fs-5"></i><div class="small"><b>Cannot deactivate now.</b> Hub D1 still has <b>23 active orders</b> (Placed → Out for Delivery). Try again when they are finished (A-07).</div></div>
+   <button class="btn w-100" style="border:1.5px solid #E7B3AC;color:#C0392B" disabled>Deactivate hub</button></div>
+ </div>
+</div></div></div><script>Chart.defaults.font.family='"Be Vietnam Pro","Segoe UI",sans-serif';Chart.defaults.font.size=13;Chart.defaults.color='#5B6B7A';
+Chart.defaults.plugins.legend.labels.boxWidth=12;Chart.defaults.plugins.legend.labels.boxHeight=12;Chart.defaults.animation=false;</script></body></html>

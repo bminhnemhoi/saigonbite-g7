@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SaigonBite – Đăng nhập</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/@fontsource/be-vietnam-pro@5.0.8/400.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/@fontsource/be-vietnam-pro@5.0.8/600.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/@fontsource/be-vietnam-pro@5.0.8/700.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/@fontsource/be-vietnam-pro@5.0.8/800.css" rel="stylesheet">
+<link href="../assets/app.css" rel="stylesheet"><script src="../assets/mode.js"></script>
+<style>
+body{background:#fff}
+.wrap{display:grid;grid-template-columns:1.15fr 1fr;min-height:900px}
+.photo{position:relative;overflow:hidden}
+.photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 40%}
+.photo::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(18,38,58,.25) 0%,rgba(18,38,58,.05) 35%,rgba(18,38,58,.92) 100%)}
+.photo .tx{position:absolute;z-index:1;left:56px;right:56px;bottom:56px;color:#fff}
+.photo .tx h1{font-size:44px;font-weight:800;letter-spacing:-.02em;line-height:1.1;margin:14px 0 12px}
+.photo .tx p{font-size:17px;color:#D5DEE7;max-width:560px}
+.stat{display:inline-flex;flex-direction:column;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:14px;padding:12px 18px;margin-right:10px;backdrop-filter:blur(6px)}
+.stat b{font-size:24px;font-weight:800} .stat span{font-size:13px;color:#D5DEE7}
+.photo .credit{position:absolute;z-index:1;right:16px;top:14px;font-size:11px;color:rgba(255,255,255,.75)}
+.side-logo{position:absolute;z-index:1;left:56px;top:44px}
+.side-logo .sb-logo{color:#fff}
+.form-side{display:flex;align-items:center;justify-content:center;padding:48px;background:#fff;position:relative}
+.box{width:100%;max-width:470px}
+.seg{display:grid;grid-template-columns:1fr 1fr;background:var(--sb-bg);border-radius:12px;padding:4px;margin-bottom:22px}
+.seg span{text-align:center;padding:10px;border-radius:9px;font-weight:700;font-size:14px;color:var(--sb-slate)}
+.seg .on{background:#fff;color:var(--sb-navy);box-shadow:0 2px 8px rgba(18,38,58,.10)}
+.inp{position:relative}.inp i.l{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--sb-mute);font-size:18px}
+.inp .form-control{padding-left:44px;height:50px}.inp i.r{position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--sb-mute);font-size:18px}
+.or{display:flex;align-items:center;gap:12px;color:var(--sb-mute);font-size:13px;margin:18px 0}.or::before,.or::after{content:"";flex:1;height:1px;background:var(--sb-line)}
+.lang-top{position:absolute;top:36px;right:48px}
+</style></head>
+<body>
+<div class="wrap">
+  <div class="photo">
+    <img class="heroimg" src="../assets/img/ctx-night-ben-thanh-warm.jpg" alt="Chợ Bến Thành về đêm, TP. Hồ Chí Minh">
+    <div class="side-logo"><div class="sb-logo"><img class="mk" src="../assets/brand/mark.svg" alt="SaigonBite"><div>Saigon<span>Bite</span></div></div></div>
+    <div class="credit">Ảnh: Chợ Bến Thành về đêm · Wikimedia Commons, CC BY 2.0</div>
+    <div class="tx">
+      <span class="pill" style="background:var(--sb-chili);color:#fff">Bếp chỉ giao hàng giữa lòng Sài Gòn</span>
+      <h1>Món Sài Gòn chuẩn vị, nấu ở bếp gần bạn nhất</h1>
+      <p>Bếp đang vắng giảm 10% tiền món. Giá hiển thị từng dòng trước khi bạn đặt – không phí ẩn.</p>
+      <div class="mt-4"><div class="stat"><b>4</b><span>bếp trung tâm</span></div><div class="stat"><b>3</b><span>thương hiệu</span></div><div class="stat"><b>8 km</b><span>vùng giao</span></div><div class="stat"><b>5</b><span>cách thanh toán</span></div></div>
+    </div>
+  </div>
+  <div class="form-side">
+    <div class="sb-lang lang-top"><span class="on">VI</span><span>EN</span></div>
+    <div class="box">
+      <div class="eyebrow mb-2">Chào mừng trở lại</div>
+      <h2 class="fw-800 text-navy mb-1" style="font-size:34px;letter-spacing:-.02em">Đăng nhập</h2>
+      <p class="text-slate mb-4">Khách nội địa dùng số điện thoại. Khách du lịch dùng hộ chiếu hoặc email.</p>
+      <div class="seg"><span class="on"><i class="bi bi-phone me-1"></i>Số điện thoại</span><span><i class="bi bi-passport me-1"></i>Hộ chiếu / Email</span></div>
+      <label class="form-label">Số điện thoại</label>
+      <div class="inp mb-3"><i class="bi bi-telephone l"></i><input class="form-control" value="0912 345 678"></div>
+      <label class="form-label">Mật khẩu</label>
+      <div class="inp mb-2"><i class="bi bi-lock l"></i><input class="form-control" type="password" value="••••••••••"><i class="bi bi-eye r"></i></div>
+      <div class="d-flex justify-content-between align-items-center mb-4 small"><label class="d-flex align-items-center gap-2"><input type="checkbox" class="form-check-input m-0" checked> Ghi nhớ đăng nhập</label><a class="fw-semibold text-chili">Quên mật khẩu?</a></div>
+      <a class="btn btn-primary w-100 py-3 fs-6" data-goto="01-home">Đăng nhập <i class="bi bi-arrow-right ms-1"></i></a>
+      <div class="or">hoặc</div>
+      <a class="btn btn-soft w-100 py-3"><i class="bi bi-chat-dots me-2"></i>Nhận mã OTP qua SMS</a>
+      <p class="text-center mt-4 mb-2">Chưa có tài khoản? <a class="fw-bold text-chili" data-goto="07-register">Tạo tài khoản</a></p>
+      <p class="text-center small text-slate mb-0"><i class="bi bi-shield-lock me-1"></i>Mật khẩu được lưu dạng băm có salt · Nhân viên bếp, shipper và quản trị đăng nhập cùng trang này</p>
+    </div>
+  </div>
+</div>
+</body></html>

@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SaigonBite Admin – Dashboard</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/@fontsource/be-vietnam-pro@5.0.8/400.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/@fontsource/be-vietnam-pro@5.0.8/600.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/@fontsource/be-vietnam-pro@5.0.8/700.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/@fontsource/be-vietnam-pro@5.0.8/800.css" rel="stylesheet">
+<link href="../assets/app.css" rel="stylesheet"><script src="../assets/mode.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style></style></head><body>
+<aside class="side"><div class="sb-logo"><img class="mk" src="../assets/brand/mark.svg" alt="SaigonBite"><div>Saigon<span>Bite</span></div></div>
+<div class="grp">Operations</div>
+<a class="on" data-goto="10-admin-dashboard"><i class="bi bi-speedometer2"></i>Dashboard<span class="t4">TIER 4</span></a>
+<a data-goto="11-admin-hubs"><i class="bi bi-shop"></i>Hubs &amp; capacity</a>
+<a><i class="bi bi-receipt"></i>Orders</a>
+<a><i class="bi bi-bicycle"></i>Shipper assignment</a>
+<div class="grp">Catalogue</div>
+<a><i class="bi bi-collection"></i>Brands &amp; menu</a>
+<a><i class="bi bi-ticket-perforated"></i>Vouchers</a>
+<div class="grp">Reports</div>
+<a data-goto="13-report-r1"><i class="bi bi-graph-up-arrow"></i>Revenue (R1)</a>
+<a data-goto="14-report-r2"><i class="bi bi-bar-chart-line"></i>Hub utilization (R2)</a>
+<div class="grp">System</div>
+<a><i class="bi bi-people"></i>Users</a>
+<a><i class="bi bi-cloud-rain"></i>Heavy-rain flag</a>
+<div style="position:absolute;bottom:20px;left:16px;right:16px" class="d-flex align-items-center gap-2 p-2 rounded-3" ><div class="sb-avatar" style="width:36px;height:36px;font-size:13px;background:#E4572E">HP</div><div style="line-height:1.2"><div class="text-white fw-semibold small">Nguyễn Hoàng Phúc</div><div class="small" style="color:#8FA3B7">System Admin</div></div></div></aside><div class="main"><div class="topbar"><div><h1>Operations dashboard</h1><div class="small text-slate">Thursday 19 Nov 2026 · live at 15:06 (Vietnam time)</div></div><div class="ms-auto d-flex align-items-center gap-3"><select class="form-select form-select-sm" style="width:150px"><option>Today</option></select><select class="form-select form-select-sm" style="width:150px"><option>All hubs</option></select><div class="sb-lang"><span>VI</span><span class="on">EN</span></div><div class="sb-icon-btn"><i class="bi bi-bell"></i><span class="sb-badge">3</span></div></div></div>
+<div class="p-4">
+ <div class="row g-3 mb-3">
+  <div class="col-3"><div class="cardx kpi d-flex justify-content-between"><div><div class="lbl">Orders today</div><div class="val">126</div><div class="dl text-success"><i class="bi bi-arrow-up"></i> 12% vs last Thu</div></div><div class="ic" style="background:#FFF1EC;color:#E4572E"><i class="bi bi-receipt"></i></div></div></div>
+  <div class="col-3"><div class="cardx kpi d-flex justify-content-between"><div><div class="lbl">Revenue today</div><div class="val">12.8M ₫</div><div class="dl text-success"><i class="bi bi-arrow-up"></i> 8% vs last Thu</div></div><div class="ic" style="background:#E8F5EE;color:#1E8A5F"><i class="bi bi-cash-stack"></i></div></div></div>
+  <div class="col-3"><div class="cardx kpi d-flex justify-content-between"><div><div class="lbl">Avg prep time</div><div class="val">14.9 min</div><div class="dl text-slate">Confirmed → Ready</div></div><div class="ic" style="background:#EAF3FB;color:#2E7DAF"><i class="bi bi-stopwatch"></i></div></div></div>
+  <div class="col-3"><div class="cardx kpi d-flex justify-content-between"><div><div class="lbl">Quiet-kitchen orders</div><div class="val">18%</div><div class="dl" style="color:#9A6412">23 of 126 orders</div></div><div class="ic" style="background:#FFF8E6;color:#C98A1E"><i class="bi bi-arrow-down-circle"></i></div></div></div>
+ </div>
+ <div class="row g-3 mb-3">
+  <div class="col-8"><div class="cardx p-4"><div class="d-flex justify-content-between mb-2"><h2 class="section-title" style="font-size:17px">Revenue, last 14 days</h2><span class="text-slate small">million ₫ · Cancelled and Failed excluded</span></div><canvas id="rev" height="112"></canvas></div></div>
+  <div class="col-4"><div class="cardx p-4 h-100"><h2 class="section-title mb-3" style="font-size:17px">Live hub load</h2>
+   <div class="mb-3"><div class="d-flex justify-content-between small fw-semibold"><span>Hub D1 · Quận 1</span><span class="text-danger">92% · full</span></div><div class="loadbar mt-1"><i class="lb-red" style="width:92%"></i></div></div>
+   <div class="mb-3"><div class="d-flex justify-content-between small fw-semibold"><span>Hub Q7 · Phú Mỹ Hưng</span><span style="color:#9A6412">56%</span></div><div class="loadbar mt-1"><i class="lb-amber" style="width:56%"></i></div></div>
+   <div class="mb-3"><div class="d-flex justify-content-between small fw-semibold"><span>Hub BT · Bình Thạnh</span><span style="color:#9A6412">47%</span></div><div class="loadbar mt-1"><i class="lb-amber" style="width:47%"></i></div></div>
+   <div class="mb-3"><div class="d-flex justify-content-between small fw-semibold"><span>Hub TD · Thủ Đức</span><span class="text-success">20% · quiet</span></div><div class="loadbar mt-1"><i class="lb-green" style="width:20%"></i></div></div>
+   <a class="small fw-semibold text-chili" data-goto="11-admin-hubs">Manage hubs <i class="bi bi-arrow-right"></i></a></div></div>
+ </div>
+ <div class="row g-3">
+  <div class="col-4"><div class="cardx p-4 h-100"><h2 class="section-title mb-2" style="font-size:17px">Orders by state now</h2><canvas id="st" height="190"></canvas></div></div>
+  <div class="col-4"><div class="cardx p-4 h-100"><h2 class="section-title mb-2" style="font-size:17px">Payment mix today</h2><canvas id="pm" height="190"></canvas></div></div>
+  <div class="col-4"><div class="cardx p-4 h-100"><h2 class="section-title mb-3" style="font-size:17px">Heavy-rain flag</h2>
+   <div class="d-flex align-items-center gap-3 p-3 rounded-3" style="background:#F5F7FA"><i class="bi bi-cloud-rain-heavy fs-2 text-slate"></i><div class="flex-grow-1"><b>Off</b><div class="small text-slate">New orders get +10,000 ₫ while it is on (BR5)</div></div><div class="switch"></div></div>
+   <div class="small text-slate mt-3"><i class="bi bi-info-circle me-1"></i>Changing the flag only affects new orders – placed orders keep their snapshot (BR17).</div>
+   <div class="d-flex gap-2 mt-3"><a class="btn btn-soft btn-sm flex-grow-1" data-goto="13-report-r1">Revenue R1</a><a class="btn btn-soft btn-sm flex-grow-1" data-goto="14-report-r2">Utilization R2</a></div></div></div>
+ </div>
+</div></div><script>Chart.defaults.font.family='"Be Vietnam Pro","Segoe UI",sans-serif';Chart.defaults.font.size=13;Chart.defaults.color='#5B6B7A';
+Chart.defaults.plugins.legend.labels.boxWidth=12;Chart.defaults.plugins.legend.labels.boxHeight=12;Chart.defaults.animation=false;</script><script>
+new Chart(document.getElementById('rev'),{type:'line',data:{labels:['6','7','8','9','10','11','12','13','14','15','16','17','18','19 Nov'],
+datasets:[{data:[9.1,10.4,11.8,12.6,9.7,10.2,10.9,11.3,13.9,14.6,10.8,11.5,12.1,12.8],borderColor:'#E4572E',backgroundColor:'rgba(228,87,46,.10)',fill:true,tension:.35,pointRadius:3,pointBackgroundColor:'#E4572E',borderWidth:2.5}]},
+options:{plugins:{legend:{display:false}},scales:{y:{beginAtZero:false,grid:{color:'#EEF1F4'}},x:{grid:{display:false}}}}});
+new Chart(document.getElementById('st'),{type:'bar',data:{labels:['Placed','Confirmed','Preparing','Ready','Out for delivery'],datasets:[{data:[6,9,14,4,11],backgroundColor:['#2E7DAF','#2E7DAF','#E4572E','#1E8A5F','#12263A'],borderRadius:6}]},
+options:{indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{grid:{color:'#EEF1F4'}},y:{grid:{display:false}}}}});
+new Chart(document.getElementById('pm'),{type:'doughnut',data:{labels:['COD','MoMo','VNPay','PayPal','Apple Pay'],datasets:[{data:[39,33,21,19,14],backgroundColor:['#1E8A5F','#A50064','#005BAA','#003087','#5B6B7A'],borderWidth:2}]},
+options:{cutout:'62%',plugins:{legend:{position:'right'}}}});
+</script></body></html>
