@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="SaigonBite">
+  <defs>
+    <linearGradient id="sbg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FF7A45"/>
+      <stop offset=".55" stop-color="#E4572E"/>
+      <stop offset="1" stop-color="#C23E1B"/>
+    </linearGradient>
+    <mask id="bite">
+      <rect width="120" height="120" fill="#fff"/>
+      <circle cx="88.5" cy="27.5" r="9.5" fill="#000"/>
+      <circle cx="94.5" cy="40.5" r="8" fill="#000"/>
+      <circle cx="78" cy="20" r="7.5" fill="#000"/>
+    </mask>
+  </defs>
+  <rect width="120" height="120" rx="30" fill="url(#sbg)"/>
+  <path mask="url(#bite)" fill="#FFFFFF" d="M60 18a33 33 0 0 1 33 33c0 23.5-26.2 47.2-31 51.3a3 3 0 0 1-4 0C53.2 98.2 27 74.5 27 51a33 33 0 0 1 33-33z"/>
+  <g fill="none" stroke="#E4572E" stroke-width="3.6" stroke-linecap="round">
+    <path d="M50.5 45.5c-2.8-3.4 2.8-5.6 0-9.4"/>
+    <path d="M60 45.5c-2.8-3.4 2.8-5.6 0-9.4"/>
+    <path d="M69.5 45.5c-2.8-3.4 2.8-5.6 0-9.4"/>
+  </g>
+  <path fill="#12263A" d="M41 51h38a19 19 0 0 1-38 0z"/>
+  <rect x="38.5" y="49" width="43" height="4.2" rx="2.1" fill="#12263A"/>
+</svg>
